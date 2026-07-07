@@ -34,7 +34,7 @@ import {
 } from '@/components/ui/data-grid-table';
 import { Input } from '@/components/ui/input';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { Skeleton } from '@/components/ui/skeleton';
+
 
 interface IData {
   id: number;
@@ -169,7 +169,7 @@ item.product.toLowerCase().includes(searchQuery.toLowerCase()));
           <span
             className={`px-2 py-1 rounded-full text-xs font-medium
             ${
-              status === "Paid"
+              status === "Active"
                 ? "bg-green-100 text-green-700"
                 : status === "Pending"
                 ? "bg-yellow-100 text-yellow-700"
