@@ -22,7 +22,7 @@ export async function POST(req: Request) {
 
     const stream = await client.chat.completions.create(
       {
-        model: "meta-llama/llama-3.3-70b-instruct:free",
+        model: "moonshotai/kimi-k2:free",
 
         stream: true,
 

@@ -2,6 +2,7 @@ import { Container } from "@/components/common/container";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { PoliciesTable } from "./components/policies-table";
+import Link from "next/link";
 
 export default function PoliciesPage() {
   return (
@@ -19,10 +20,12 @@ export default function PoliciesPage() {
             </p>
           </div>
 
-          <Button className="w-full lg:w-auto">
-            <Plus className="mr-2 h-4 w-4" />
-            New Policy
-          </Button>
+          <Button asChild className="w-full lg:w-auto">
+  <Link href="/new-business">
+    <Plus className="mr-2 h-4 w-4" />
+    New Policy
+  </Link>
+</Button>
         </div>
 
         {/* Policies Table */}

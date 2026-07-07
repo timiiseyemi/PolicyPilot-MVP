@@ -1,8 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import { Avatar, AvatarGroup } from '@/partials/common/avatar-group';
-import { Rating } from '@/partials/common/rating';
+import { useEffect, useMemo, useState } from 'react';
 import {
   ColumnDef,
   getCoreRowModel,
@@ -14,8 +12,11 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
+
 import { Search, X } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
+
 import {
   Card,
   CardFooter,
@@ -24,201 +25,265 @@ import {
   CardTitle,
   CardToolbar,
 } from '@/components/ui/card';
+
 import { DataGrid } from '@/components/ui/data-grid';
+
 import { DataGridColumnHeader } from '@/components/ui/data-grid-column-header';
+
 import { DataGridPagination } from '@/components/ui/data-grid-pagination';
+
 import {
   DataGridTable,
   DataGridTableRowSelect,
   DataGridTableRowSelectAll,
 } from '@/components/ui/data-grid-table';
-import { Input } from '@/components/ui/input';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
+import { Input } from '@/components/ui/input';
+
+import {
+  ScrollArea,
+  ScrollBar,
+} from '@/components/ui/scroll-area';
 
 interface IData {
-  id: number;
+  id: string;
   policyNo: string;
   customer: string;
   product: string;
   insurer: string;
   premium: string;
-  status: "Active" | "Expired" | "Pending";
+  status: 'Active' | 'Pending' | 'Expired';
   renewal: string;
 }
 
-const data: IData[] = [
-  {
-    id:1,
-    policyNo:"POL-10001",
-    customer:"John Doe",
-    product:"Motor Insurance",
-    insurer:"Leadway",
-    premium:"₦250,000",
-    status:"Active",
-    renewal:"15 Jul 2026"
-  },
-  {
-    id:2,
-    policyNo:"POL-10002",
-    customer:"Sarah James",
-    product:"Health Insurance",
-    insurer:"AXA Mansard",
-    premium:"₦180,000",
-    status:"Pending",
-    renewal:"22 Jul 2026"
-  },
-  {
-    id:3,
-    policyNo:"POL-10003",
-    customer:"ACME Ltd",
-    product:"Fire Insurance",
-    insurer:"AIICO",
-    premium:"₦1,250,000",
-    status:"Expired",
-    renewal:"03 Jul 2026"
-  }
-];
-
 const PoliciesTable = () => {
+  const [data, setData] = useState<IData[]>([]);
+
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 5,
   });
-  const [sorting, setSorting] = useState<SortingState>([
-    { id: 'updated_at', desc: true },
-  ]);
-  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+
+  const [sorting, setSorting] = useState<SortingState>([]);
+
+  const [rowSelection, setRowSelection] =
+    useState<RowSelectionState>({});
+
   const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    async function loadPolicies() {
+      try {
+        const res = await fetch('/api/policies');
+
+        const policies = await res.json();
+
+        setData(
+          policies.map((policy: any) => ({
+            id: policy.id,
+
+            policyNo: policy.policyNumber,
+
+            customer: policy.customer?.name ?? '-',
+
+            product: policy.product,
+
+            insurer: policy.insurer,
+
+            premium: new Intl.NumberFormat('en-NG', {
+              style: 'currency',
+              currency: 'NGN',
+            }).format(policy.premium),
+
+            status:
+              policy.status === 'ACTIVE'
+                ? 'Active'
+                : policy.status === 'DRAFT'
+                ? 'Pending'
+                : 'Expired',
+
+            renewal: new Date(
+              policy.endDate
+            ).toLocaleDateString(),
+          }))
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    loadPolicies();
+  }, []);
 
   const filteredData = useMemo(() => {
     if (!searchQuery) return data;
+
     return data.filter(
       (item) =>
-        item.customer.toLowerCase().includes(searchQuery.toLowerCase()) ||
-item.policyNo.toLowerCase().includes(searchQuery.toLowerCase()) ||
-item.product.toLowerCase().includes(searchQuery.toLowerCase()));
-  }, [searchQuery]);
+        item.customer
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        item.policyNo
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        item.product
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        item.insurer
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())
+    );
+  }, [data, searchQuery]);
 
- const columns = useMemo<ColumnDef<IData>[]>(
-  () => [
-    {
-      accessorKey: "id",
-      header: () => <DataGridTableRowSelectAll />,
-      cell: ({ row }) => <DataGridTableRowSelect row={row} />,
-      enableSorting: false,
-      size: 50,
-    },
-
-    {
-      accessorKey: "policyNo",
-      header: ({ column }) => (
-        <DataGridColumnHeader title="Policy No." column={column} />
-      ),
-      cell: ({ row }) => (
-        <span className="font-medium">
-          {row.original.policyNo}
-        </span>
-      ),
-    },
-
-    {
-      accessorKey: "customer",
-      header: ({ column }) => (
-        <DataGridColumnHeader title="Customer" column={column} />
-      ),
-      cell: ({ row }) => (
-        <div>
-          <div className="font-medium">
-            {row.original.customer}
-          </div>
-
-          <div className="text-xs text-muted-foreground">
-            {row.original.product}
-          </div>
-        </div>
-      ),
-    },
-
-    {
-  accessorKey: "insurer",
-  header: ({ column }) => (
-    <DataGridColumnHeader
-      title="Insurer"
-      column={column}
-    />
-  ),
-},
-
-    {
-      accessorKey: "premium",
-      header: ({ column }) => (
-        <DataGridColumnHeader title="Premium" column={column} />
-      ),
-    },
-
-    {
-      accessorKey: "status",
-      header: ({ column }) => (
-        <DataGridColumnHeader title="Status" column={column} />
-      ),
-      cell: ({ row }) => {
-        const status = row.original.status;
-
-        return (
-          <span
-            className={`px-2 py-1 rounded-full text-xs font-medium
-            ${
-              status === "Active"
-                ? "bg-green-100 text-green-700"
-                : status === "Pending"
-                ? "bg-yellow-100 text-yellow-700"
-                : "bg-red-100 text-red-700"
-            }`}
-          >
-            {status}
-          </span>
-        );
+  const columns = useMemo<ColumnDef<IData>[]>(
+    () => [
+      {
+        accessorKey: 'id',
+        header: () => <DataGridTableRowSelectAll />,
+        cell: ({ row }) => (
+          <DataGridTableRowSelect row={row} />
+        ),
+        enableSorting: false,
+        size: 50,
       },
-    },
 
-    {
-      accessorKey: "dueDate",
-      header: ({ column }) => (
-        <DataGridColumnHeader title="Renewal" column={column} />
-      ),
-    },
+      {
+        accessorKey: 'policyNo',
+        header: ({ column }) => (
+          <DataGridColumnHeader
+            title="Policy No."
+            column={column}
+          />
+        ),
+      },
 
-    
-  ],
-  [],
-);
+      {
+        accessorKey: 'customer',
+        header: ({ column }) => (
+          <DataGridColumnHeader
+            title="Customer"
+            column={column}
+          />
+        ),
+
+        cell: ({ row }) => (
+          <div>
+            <div className="font-medium">
+              {row.original.customer}
+            </div>
+
+            <div className="text-xs text-muted-foreground">
+              {row.original.product}
+            </div>
+          </div>
+        ),
+      },
+
+      {
+        accessorKey: 'insurer',
+
+        header: ({ column }) => (
+          <DataGridColumnHeader
+            title="Insurer"
+            column={column}
+          />
+        ),
+      },
+
+      {
+        accessorKey: 'premium',
+
+        header: ({ column }) => (
+          <DataGridColumnHeader
+            title="Premium"
+            column={column}
+          />
+        ),
+      },
+
+      {
+        accessorKey: 'status',
+
+        header: ({ column }) => (
+          <DataGridColumnHeader
+            title="Status"
+            column={column}
+          />
+        ),
+
+        cell: ({ row }) => {
+          const status = row.original.status;
+
+          return (
+            <span
+              className={`px-2 py-1 rounded-full text-xs font-medium ${
+                status === 'Active'
+                  ? 'bg-green-100 text-green-700'
+                  : status === 'Pending'
+                  ? 'bg-yellow-100 text-yellow-700'
+                  : 'bg-red-100 text-red-700'
+              }`}
+            >
+              {status}
+            </span>
+          );
+        },
+      },
+
+      {
+        accessorKey: 'renewal',
+
+        header: ({ column }) => (
+          <DataGridColumnHeader
+            title="Renewal"
+            column={column}
+          />
+        ),
+      },
+    ],
+    []
+  );
 
   const table = useReactTable({
-    columns,
     data: filteredData,
-    pageCount: Math.ceil((filteredData?.length || 0) / pagination.pageSize),
-    getRowId: (row: IData) => String(row.id),
+
+    columns,
+
+    getRowId: (row) => row.id,
+
+    pageCount: Math.ceil(
+      filteredData.length / pagination.pageSize
+    ),
+
     state: {
       pagination,
       sorting,
       rowSelection,
     },
-    columnResizeMode: 'onChange',
+
     onPaginationChange: setPagination,
+
     onSortingChange: setSorting,
-    enableRowSelection: true,
+
     onRowSelectionChange: setRowSelection,
+
+    enableRowSelection: true,
+
+    columnResizeMode: 'onChange',
+
     getCoreRowModel: getCoreRowModel(),
+
     getFilteredRowModel: getFilteredRowModel(),
+
     getPaginationRowModel: getPaginationRowModel(),
+
     getSortedRowModel: getSortedRowModel(),
   });
 
   return (
     <DataGrid
       table={table}
-      recordCount={filteredData?.length || 0}
+      recordCount={filteredData.length}
       tableLayout={{
         columnsPinnable: true,
         columnsMovable: true,
@@ -229,19 +294,24 @@ item.product.toLowerCase().includes(searchQuery.toLowerCase()));
       <Card>
         <CardHeader className="py-3.5">
           <CardTitle>Policies</CardTitle>
+
           <CardToolbar className="relative">
-            <Search className="size-4 text-muted-foreground absolute start-3 top-1/2 -translate-y-1/2" />
+            <Search className="absolute start-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+
             <Input
+              className="ps-9 w-52"
               placeholder="Search policies..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="ps-9 w-40"
+              onChange={(e) =>
+                setSearchQuery(e.target.value)
+              }
             />
-            {searchQuery.length > 0 && (
+
+            {searchQuery && (
               <Button
                 mode="icon"
                 variant="ghost"
-                className="absolute end-1.5 top-1/2 -translate-y-1/2 h-6 w-6"
+                className="absolute end-1 top-1/2 h-6 w-6 -translate-y-1/2"
                 onClick={() => setSearchQuery('')}
               >
                 <X />
@@ -249,12 +319,15 @@ item.product.toLowerCase().includes(searchQuery.toLowerCase()));
             )}
           </CardToolbar>
         </CardHeader>
+
         <CardTable>
           <ScrollArea>
             <DataGridTable />
+
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
         </CardTable>
+
         <CardFooter>
           <DataGridPagination />
         </CardFooter>
