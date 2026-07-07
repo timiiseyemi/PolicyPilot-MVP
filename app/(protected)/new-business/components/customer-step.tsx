@@ -11,112 +11,87 @@ import { Input } from "@/components/ui/input";
 
 import type { NewBusinessData } from "../page";
 
-interface PolicyStepProps {
+interface CustomerStepProps {
   data: NewBusinessData;
   setData: React.Dispatch<React.SetStateAction<NewBusinessData>>;
   onNext: () => void;
-  onBack: () => void;
 }
 
-export function PolicyStep({
+export function CustomerStep({
   data,
   setData,
   onNext,
-  onBack,
-}: PolicyStepProps) {
+}: CustomerStepProps) {
   return (
     <Card>
       <CardHeader>
         <CardTitle>
-          Step 2 — Policy Details
+          Step 1 — Customer Details
         </CardTitle>
       </CardHeader>
 
       <CardContent className="space-y-5">
 
         <Input
-          placeholder="Insurer"
-          value={data.policy.insurer}
+          placeholder="Full Name"
+          value={data.customer.name}
           onChange={(e) =>
             setData((prev) => ({
               ...prev,
-              policy: {
-                ...prev.policy,
-                insurer: e.target.value,
+              customer: {
+                ...prev.customer,
+                name: e.target.value,
               },
             }))
           }
         />
 
         <Input
-          placeholder="Product"
-          value={data.policy.product}
+          placeholder="Email Address"
+          value={data.customer.email}
           onChange={(e) =>
             setData((prev) => ({
               ...prev,
-              policy: {
-                ...prev.policy,
-                product: e.target.value,
+              customer: {
+                ...prev.customer,
+                email: e.target.value,
               },
             }))
           }
         />
 
         <Input
-          placeholder="Premium Amount"
-          value={data.policy.premium}
+          placeholder="Phone Number"
+          value={data.customer.phone}
           onChange={(e) =>
             setData((prev) => ({
               ...prev,
-              policy: {
-                ...prev.policy,
-                premium: e.target.value,
+              customer: {
+                ...prev.customer,
+                phone: e.target.value,
               },
             }))
           }
         />
 
         <Input
-          type="date"
-          value={data.policy.startDate}
+          placeholder="Company (optional)"
+          value={data.customer.company}
           onChange={(e) =>
             setData((prev) => ({
               ...prev,
-              policy: {
-                ...prev.policy,
-                startDate: e.target.value,
+              customer: {
+                ...prev.customer,
+                company: e.target.value,
               },
             }))
           }
         />
 
-        <Input
-          type="date"
-          value={data.policy.endDate}
-          onChange={(e) =>
-            setData((prev) => ({
-              ...prev,
-              policy: {
-                ...prev.policy,
-                endDate: e.target.value,
-              },
-            }))
-          }
-        />
-
-        <div className="flex justify-between">
-
-          <Button
-            variant="outline"
-            onClick={onBack}
-          >
-            Back
-          </Button>
-
+        <div className="flex justify-end">
           <Button onClick={onNext}>
             Continue
           </Button>
-
         </div>
 
       </CardContent>
