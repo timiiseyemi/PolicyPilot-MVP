@@ -62,8 +62,8 @@ export function SignInForm() {
         const errorData = JSON.parse(response.error);
         setError(errorData.message);
       } else {
-        const redirectUrl = response?.url ?? returnUrl;
-        await router.push(redirectUrl);
+        router.push(returnUrl);
+        router.refresh();
       }
     } catch (err) {
       setError(
