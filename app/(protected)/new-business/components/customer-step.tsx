@@ -21,7 +21,40 @@ export function CustomerStep({
   data,
   setData,
   onNext,
-}: CustomerStepProps) {
+}: CustomerStepProps) 
+{
+  async function handleContinue() {
+    try {
+      const res = await fetch("/api/customers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: data.customer.name,
+          email: data.customer.email,
+          phone: data.customer.phone,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to create customer");
+      }
+
+      const customer = await res.json();
+
+      setData((prev) => ({
+        ...prev,
+        customerId: customer.id,
+      }));
+
+      onNext();
+    } catch (err) {
+      console.error(err);
+      alert("Unable to create customer.");
+    }
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -89,7 +122,7 @@ export function CustomerStep({
         />
 
         <div className="flex justify-end">
-          <Button onClick={onNext}>
+          <Button onClick={handleContinue}>
             Continue
           </Button>
         </div>

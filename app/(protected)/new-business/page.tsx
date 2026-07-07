@@ -9,6 +9,7 @@ import { PaymentStep } from "./components/payment-step";
 
 export interface NewBusinessData {
   customer: {
+    id?: string;
     name: string;
     email: string;
     phone: string;
@@ -16,6 +17,7 @@ export interface NewBusinessData {
   };
 
   policy: {
+    id?: string;
     insurer: string;
     product: string;
     premium: string;
@@ -44,6 +46,79 @@ export default function NewBusinessPage() {
     },
   });
 
+  const createCustomer = async () => {
+  const res = await fetch("/api/customers", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: data.customer.name,
+      email: data.customer.email,
+      phone: data.customer.phone,
+    }),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to create customer");
+  }
+
+  const customer = await res.json();
+
+  setData((prev) => ({
+    ...prev,
+    customer: {
+      ...prev.customer,
+      id: customer.id,
+    },
+  }));
+
+  return customer;
+};
+
+const createPolicy = async () => {
+  const policyNumber =
+    "POL-" + Date.now().toString().slice(-6);
+
+  const res = await fetch("/api/policies", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      customerId: data.customer.id,
+
+      policyNumber,
+
+      insurer: data.policy.insurer,
+
+      product: data.policy.product,
+
+      premium: Number(data.policy.premium),
+
+      startDate: data.policy.startDate,
+
+      endDate: data.policy.endDate,
+    }),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to create policy");
+  }
+
+  const policy = await res.json();
+
+  setData((prev) => ({
+    ...prev,
+    policy: {
+      ...prev.policy,
+      id: policy.id,
+    },
+  }));
+
+  return policy;
+};
+
   return (
     <Container>
       <div className="max-w-5xl mx-auto py-8 space-y-8">
@@ -59,10 +134,13 @@ export default function NewBusinessPage() {
 
         {step === 1 && (
           <CustomerStep
-            data={data}
-            setData={setData}
-            onNext={() => setStep(2)}
-          />
+  data={data}
+  setData={setData}
+  onNext={async () => {
+    await createCustomer();
+    setStep(2);
+  }}
+/>
         )}
 
         {step === 2 && (
@@ -70,7 +148,10 @@ export default function NewBusinessPage() {
             data={data}
             setData={setData}
             onBack={() => setStep(1)}
-            onNext={() => setStep(3)}
+            onNext={async () => {
+              await createPolicy();
+              setStep(3);
+            }}
           />
         )}
 

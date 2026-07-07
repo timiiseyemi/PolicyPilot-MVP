@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { PolicyStatus } from "@prisma/client";
 
 export async function GET() {
   const policies = await prisma.policy.findMany({
@@ -21,11 +22,20 @@ export async function POST(req: Request) {
   const policy = await prisma.policy.create({
     data: {
       policyNumber: body.policyNumber,
-      product: body.product,
-      premium: body.premium,
-      status: "Pending",
-      renewalDate: new Date(body.renewalDate),
+
       customerId: body.customerId,
+
+      product: body.product,
+
+      insurer: body.insurer,
+
+      premium: Number(body.premium),
+
+      startDate: new Date(body.startDate),
+
+      endDate: new Date(body.endDate),
+
+      status: PolicyStatus.ACTIVE,
     },
   });
 

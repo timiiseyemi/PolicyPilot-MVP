@@ -16,15 +16,41 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  const body = await req.json();
+  try {
+    const body = await req.json();
 
-  const customer = await prisma.customer.create({
-    data: {
-      name: body.name,
-      email: body.email,
-      phone: body.phone,
-    },
-  });
+    console.log("Incoming customer:", body);
 
-  return NextResponse.json(customer);
+    const existing = await prisma.customer.findUnique({
+      where: {
+        email: body.email,
+      },
+    });
+
+    if (existing) {
+      return NextResponse.json(existing);
+    }
+
+    const customer = await prisma.customer.create({
+      data: {
+        name: body.name,
+        email: body.email,
+        phone: body.phone || null,
+      },
+    });
+
+    return NextResponse.json(customer);
+  } catch (error) {
+    console.error("CUSTOMER API ERROR:");
+    console.error(error);
+
+    return NextResponse.json(
+      {
+        error: String(error),
+      },
+      {
+        status: 500,
+      }
+    );
+  }
 }

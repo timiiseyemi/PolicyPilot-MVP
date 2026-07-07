@@ -9,23 +9,10 @@ export async function markPaymentSuccessful(
   orderReference: string,
   transactionReference: string,
 ) {
-  console.log("Searching database for:");
-console.log(orderReference);
-
-const payments = await prisma.payment.findMany({
-  select: {
-    id: true,
-    orderReference: true,
-    status: true,
-  },
-});
-
-console.log("Payments in DB:");
-console.log(payments);
-
-  const payment = await prisma.payment.findUnique({
+  
+ const payment = await prisma.payment.findUnique({
   where: {
-    id: orderReference,
+    orderReference,
   },
 });
 

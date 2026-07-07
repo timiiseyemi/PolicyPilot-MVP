@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   ColumnDef,
   getCoreRowModel,
@@ -36,71 +36,16 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 interface IData {
-  id: number;
+  id: string;
   name: string;
   email: string;
   phone: string;
   policies: number;
   premium: string;
-  status: 'Active' | 'Inactive';
+  status: "Active" | "Inactive";
 }
 
-const data: IData[] = [
-  {
-    id: 1,
-    name: 'John Doe',
-    email: 'john@example.com',
-    phone: '+234 801 234 5678',
-    policies: 3,
-    premium: '₦420,000',
-    status: 'Active',
-  },
-  {
-    id: 2,
-    name: 'Sarah James',
-    email: 'sarah@example.com',
-    phone: '+234 802 333 4444',
-    policies: 1,
-    premium: '₦180,000',
-    status: 'Active',
-  },
-  {
-    id: 3,
-    name: 'ACME Limited',
-    email: 'insurance@acme.com',
-    phone: '+234 803 777 9999',
-    policies: 8,
-    premium: '₦4,250,000',
-    status: 'Active',
-  },
-  {
-    id: 4,
-    name: 'Michael Johnson',
-    email: 'michael@example.com',
-    phone: '+234 806 123 9988',
-    policies: 0,
-    premium: '₦0',
-    status: 'Inactive',
-  },
-  {
-    id: 5,
-    name: 'Greenfield Farms',
-    email: 'admin@greenfield.ng',
-    phone: '+234 805 111 2233',
-    policies: 5,
-    premium: '₦1,180,000',
-    status: 'Active',
-  },
-  {
-    id: 6,
-    name: 'Mary Williams',
-    email: 'mary@example.com',
-    phone: '+234 809 876 5544',
-    policies: 2,
-    premium: '₦310,000',
-    status: 'Active',
-  },
-];
+
 
 export function CustomersTable() {
   const [pagination, setPagination] = useState<PaginationState>({
@@ -119,6 +64,43 @@ export function CustomersTable() {
     useState<RowSelectionState>({});
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [data, setData] = useState<IData[]>([]);
+
+  useEffect(() => {
+  async function loadCustomers() {
+    try {
+      const res = await fetch("/api/customers");
+      const customers = await res.json();
+
+      const mapped = customers.map((customer: any) => ({
+        id: customer.id,
+        name: customer.name,
+        email: customer.email,
+        phone: customer.phone || "-",
+        policies: customer.policies.length,
+        premium:
+          "₦" +
+          customer.payments
+            .reduce(
+              (sum: number, payment: any) =>
+                sum + payment.amount,
+              0
+            )
+            .toLocaleString(),
+        status:
+          customer.policies.length > 0
+            ? "Active"
+            : "Inactive",
+      }));
+
+      setData(mapped);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  loadCustomers();
+}, []);
 
   const filteredData = useMemo(() => {
     if (!searchQuery) return data;
@@ -133,7 +115,7 @@ export function CustomersTable() {
           .includes(searchQuery.toLowerCase()) ||
         customer.phone.includes(searchQuery),
     );
-  }, [searchQuery]);
+  }, [searchQuery, data]);
   const columns = useMemo<ColumnDef<IData>[]>(
     () => [
       {

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Container } from "@/components/common/container";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
@@ -18,10 +19,12 @@ export default function CustomersPage() {
             </p>
           </div>
 
-          <Button className="w-full lg:w-auto">
-            <Plus className="mr-2 h-4 w-4" />
-            Add Customer
-          </Button>
+          <Link href="/new-business">
+            <Button className="w-full lg:w-auto">
+              <Plus className="mr-2 h-4 w-4" />
+              Add Customer
+            </Button>
+          </Link>
         </div>
 
         <CustomersTable />

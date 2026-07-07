@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { PaymentStatus } from "@prisma/client";
 
 export async function GET() {
   const payments = await prisma.payment.findMany({
@@ -16,16 +17,40 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  const body = await req.json();
+  try {
+    const body = await req.json();
 
-  const payment = await prisma.payment.create({
-    data: {
-      amount: body.amount,
-      status: "Pending",
-      customerId: body.customerId,
-      policyId: body.policyId,
-    },
-  });
+    const payment = await prisma.payment.create({
+      data: {
+        amount: Number(body.amount),
 
-  return NextResponse.json(payment);
+        status: PaymentStatus.PENDING,
+
+        customerId: body.customerId,
+
+        policyId: body.policyId,
+
+        paymentMethod: body.paymentMethod ?? null,
+
+        checkoutLink: body.checkoutLink ?? null,
+
+        orderReference: body.orderReference ?? null,
+
+        transactionReference: body.transactionReference ?? null,
+      },
+    });
+
+    return NextResponse.json(payment);
+  } catch (error) {
+    console.error(error);
+
+    return NextResponse.json(
+      {
+        error: "Failed to create payment.",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
 }

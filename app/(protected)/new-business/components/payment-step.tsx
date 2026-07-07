@@ -78,33 +78,34 @@ export function PaymentStep({
 
           <Button
   onClick={async () => {
-
     const res = await fetch(
       "/api/payments/create-checkout",
       {
         method: "POST",
-
         headers: {
           "Content-Type": "application/json",
         },
-
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          customerId: data.customer.id,
+          policyId: data.policy.id,
+          amount: Number(data.policy.premium),
+        }),
       }
     );
 
     const result = await res.json();
 
+    console.log(result);
+
     if (result.checkoutLink) {
-      window.location.href =
-        result.checkoutLink;
+      window.location.href = result.checkoutLink;
+    } else {
+      alert(result.error || "Unable to create checkout");
     }
   }}
 >
-
   <CreditCard className="mr-2 h-4 w-4" />
-
   Generate Nomba Checkout
-
 </Button>
 
         </div>

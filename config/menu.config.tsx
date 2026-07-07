@@ -39,8 +39,8 @@ export const MENU_SIDEBAR: MenuConfig = [
         path: "/policies",
       },
       {
-        title: "New Policy",
-        path: "/policies/new",
+        title: "New Business",
+        path: "/new-business",
       },
       {
         title: "Quotes",
