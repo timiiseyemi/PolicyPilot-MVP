@@ -7,48 +7,18 @@ import { Textarea } from "@/components/ui/textarea";
 interface PromptBoxProps {
   prompt: string;
   setPrompt: (value: string) => void;
-  setResponse: (value: string) => void;
   loading: boolean;
-  setLoading: (value: boolean) => void;
+  askAI: () => void;
 }
 
 export function PromptBox({
   prompt,
   setPrompt,
-  setResponse,
   loading,
-  setLoading,
+  askAI,
 }: PromptBoxProps) {
-  async function askAI() {
-    if (!prompt.trim()) return;
 
-    try {
-      setLoading(true);
-      setResponse("");
-
-      const res = await fetch("/api/copilot", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          prompt,
-        }),
-      });
-
-      const data = await res.json();
-
-      setResponse(data.response || "No response received.");
-    } catch (err) {
-      console.error(err);
-
-      setResponse(
-        "Something went wrong while talking to AI."
-      );
-    } finally {
-      setLoading(false);
-    }
-  }
+  
 
   return (
     <div className="rounded-2xl border bg-card p-6 shadow-sm">
