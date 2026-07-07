@@ -1,23 +1,38 @@
 import OpenAI from "openai";
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 export async function POST(req: Request) {
   try {
+    const apiKey = process.env.OPENROUTER_API_KEY;
+
+    if (!apiKey) {
+      return new Response(
+        "OPENROUTER_API_KEY is not configured.",
+        {
+          status: 500,
+        }
+      );
+    }
+
+    const client = new OpenAI({
+      apiKey,
+      baseURL: "https://openrouter.ai/api/v1",
+    });
+
     const { prompt } = await req.json();
 
-    const stream = await client.chat.completions.create({
-      model: "gpt-4.1-mini",
-      stream: true,
-      messages: [
-        {
-          role: "system",
-          content: `
+    const stream = await client.chat.completions.create(
+      {
+        model: "meta-llama/llama-3.3-70b-instruct:free",
+
+        stream: true,
+
+        messages: [
+          {
+            role: "system",
+            content: `
 You are BrokerOS AI.
 
-You are an AI assistant built for insurance brokers.
+You are an AI assistant built specifically for insurance brokers.
 
 You help with:
 
@@ -29,15 +44,25 @@ You help with:
 - Cross-selling recommendations
 - Risk analysis
 
-Always answer professionally and clearly.
-          `,
+Always answer professionally, accurately and clearly.
+`,
+          },
+          {
+            role: "user",
+            content: prompt,
+          },
+        ],
+      },
+      {
+        headers: {
+          "HTTP-Referer":
+            process.env.NEXT_PUBLIC_APP_URL ??
+            "https://localhost:3000",
+
+          "X-Title": "BrokerOS AI",
         },
-        {
-          role: "user",
-          content: prompt,
-        },
-      ],
-    });
+      }
+    );
 
     const encoder = new TextEncoder();
 
@@ -45,10 +70,13 @@ Always answer professionally and clearly.
       async start(controller) {
         try {
           for await (const chunk of stream) {
-            const text = chunk.choices[0]?.delta?.content;
+            const text =
+              chunk.choices[0]?.delta?.content;
 
             if (text) {
-              controller.enqueue(encoder.encode(text));
+              controller.enqueue(
+                encoder.encode(text)
+              );
             }
           }
 
@@ -61,15 +89,19 @@ Always answer professionally and clearly.
 
     return new Response(readableStream, {
       headers: {
-        "Content-Type": "text/plain; charset=utf-8",
+        "Content-Type":
+          "text/plain; charset=utf-8",
         "Cache-Control": "no-cache",
       },
     });
   } catch (error) {
     console.error(error);
 
-    return new Response("Something went wrong.", {
-      status: 500,
-    });
+    return new Response(
+      "Something went wrong.",
+      {
+        status: 500,
+      }
+    );
   }
 }
