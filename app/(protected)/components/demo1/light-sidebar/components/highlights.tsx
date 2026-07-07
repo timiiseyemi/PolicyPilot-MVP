@@ -40,39 +40,42 @@ const Highlights = ({ limit }: IHighlightsProps) => {
   const rows: IHighlightsRows = [
     {
       icon: RiStore2Line,
-      text: 'Auto Insurance',
+      text: 'Motor Insurance',
       total: 172,
       stats: 3.9,
       increase: true,
     },
     {
       icon: RiFacebookCircleLine,
-      text: 'Home Insurance',
+      text: 'Health Insurance',
       total: 85,
       stats: 0.7,
       increase: false,
     },
     {
       icon: RiInstagramLine,
-      text: 'Health Insurance',
+      text: 'Life Insurance',
       total: 36,
       stats: 8.2,
       increase: true,
     },
     {
       icon: RiGoogleLine,
-      text: 'Life Insurance',
+      text: 'Marine Insurance',
       total: 26,
       stats: 8.2,
       increase: true,
     },
-    { icon: RiBankLine, text: 'Commercial', total: 7, stats: 0.7, increase: false },
+    { icon: RiBankLine, text: 'Fire Insurance', total: 7, stats: 0.7, increase: false },
   ];
 
   const items: IHighlightsItems = [
     { badgeColor: 'bg-green-500', label: 'Life' },
-    { badgeColor: 'bg-destructive', label: 'Auto' },
-    { badgeColor: 'bg-violet-500', label: 'Home' },
+    { badgeColor: 'bg-destructive', label: 'Motor' },
+    { badgeColor: 'bg-violet-500', label: 'Fire' },
+    { badgeColor: 'bg-yellow-500', label: 'Health' },
+    { badgeColor: 'bg-blue-500', label: 'Marine' }
+
   ];
 
   const renderRow = (row: IHighlightsRow, index: number) => {
@@ -86,7 +89,7 @@ const Highlights = ({ limit }: IHighlightsProps) => {
           <span className="text-sm font-normal text-mono">{row.text}</span>
         </div>
         <div className="flex items-center text-sm font-medium text-foreground gap-6">
-          <span className="lg:text-right">${row.total}k</span>
+          <span className="lg:text-right">₦{row.total}M</span>
           <span className="flex items-center justify-end gap-1">
             {row.increase ? (
               <ArrowUp className="text-green-500 size-4" />
@@ -114,7 +117,7 @@ const Highlights = ({ limit }: IHighlightsProps) => {
   return (
     <Card className="h-full">
       <CardHeader>
-        <CardTitle>Insurance Performance</CardTitle>
+        <CardTitle>Portfolio Distribution</CardTitle>
         <DropdownMenu4
           trigger={
             <Button variant="ghost" mode="icon">
@@ -126,10 +129,10 @@ const Highlights = ({ limit }: IHighlightsProps) => {
       <CardContent className="flex flex-col gap-4 p-5 lg:p-7.5 lg:pt-4">
         <div className="flex flex-col gap-0.5">
           <span className="text-sm font-normal text-secondary-foreground">
-            Total Premium Revenue
+            Total Portfolio Value
           </span>
           <div className="flex items-center gap-2.5">
-            <span className="text-3xl font-semibold text-mono">$295.7k</span>
+            <span className="text-3xl font-semibold text-mono">₦295.7M</span>
             <Badge size="sm" variant="success" appearance="light">
               +2.7%
             </Badge>

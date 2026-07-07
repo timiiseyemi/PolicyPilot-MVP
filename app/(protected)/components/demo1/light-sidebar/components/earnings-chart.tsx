@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { ApexOptions } from 'apexcharts';
 import ApexChart from 'react-apexcharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
+
 import {
   Select,
   SelectContent,
@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
+
 
 // Hardcoded dummy data for the earnings chart
 const dummyChartData: number[] = [
@@ -109,7 +109,7 @@ const EarningsChart = () => {
           fontSize: '12px',
         },
         formatter: (defaultValue) => {
-          return `$${defaultValue}K`;
+          return `₦${defaultValue}M`;
         },
       },
     },
@@ -129,7 +129,7 @@ const EarningsChart = () => {
 
         return `
           <div class="flex flex-col gap-2 p-3.5">
-            <div class="font-medium text-sm text-secondary-foreground">${monthName}, 2024 Sales</div>
+            <div class="font-medium text-sm text-secondary-foreground">${monthName}, 2024 Policy Revenue</div>
             <div class="flex items-center gap-1.5">
               <div class="font-semibold text-base text-mono">${formattedNumber}</div>
               <span class="rounded-full border border-green-200 font-medium dark:border-green-850 text-success-700 bg-green-100 dark:bg-green-950/30 text-[11px] leading-none px-1.25 py-1">+24%</span>
@@ -183,23 +183,17 @@ const EarningsChart = () => {
   return (
     <Card className="h-full">
       <CardHeader>
-        <CardTitle>Earnings</CardTitle>
+        <CardTitle>Monthly Premium Revenue</CardTitle>
         <div className="flex gap-5">
-          <div className="flex items-center gap-2">
-            <Label htmlFor="auto-update" className="text-sm">
-              Referrals only
-            </Label>
-            <Switch id="auto-update" defaultChecked size="sm" />
-          </div>
+          
           <Select defaultValue="1">
             <SelectTrigger className="w-28">
               <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent className="w-28">
-              <SelectItem value="1">1 month</SelectItem>
-              <SelectItem value="3">3 months</SelectItem>
-              <SelectItem value="6">6 months</SelectItem>
-              <SelectItem value="12">12 months</SelectItem>
+              <SelectItem value="month">This Month</SelectItem>
+<SelectItem value="quarter">This Quarter</SelectItem>
+<SelectItem value="year">This Year</SelectItem>
             </SelectContent>
           </Select>
         </div>

@@ -1,236 +1,230 @@
 import {
-  AlertCircle,
-  Award,
-  Badge,
-  Bell,
-  Bitcoin,
-  Bolt,
-  Book,
-  Briefcase,
-  Building,
-  CalendarCheck,
-  Captions,
-  CheckCircle,
-  Code,
-  Codepen,
-  Coffee,
-  File as DocumentIcon,
-  Euro,
-  Eye,
-  File,
-  FileQuestion,
-  FileText,
-  Flag,
-  Ghost,
-  Gift,
-  Grid,
-  Heart,
-  HelpCircle,
-  Kanban,
-  Key,
-  Layout,
   LayoutGrid,
-  LifeBuoy,
-  MessageSquare,
-  Monitor,
-  Network,
-  Users as PeopleIcon,
-  Plug,
-  ScrollText,
-  Settings,
-  Share2,
-  Shield,
-  ShieldUser,
-  ShoppingCart,
-  SquareMousePointer,
-  Star,
-  Theater,
-  TrendingUp,
-  UserCheck,
-  UserCircle,
+  FileText,
   Users,
-  Briefcase as WorkIcon,
-  Zap,
-} from 'lucide-react';
+  Shield,
+  CreditCard,
+  RefreshCcw,
+  Bot,
+  BarChart3,
+  Building2,
+  Settings,
+  ShieldUser,
+  UserCircle,
+  ShoppingCart,
+  Coffee,
+  AlertCircle,
+  FileQuestion,
+  Star,
+  HelpCircle,
+  Captions,
+  Share2,
+  
+} from "lucide-react";
 import { type MenuConfig } from './types';
 
 export const MENU_SIDEBAR: MenuConfig = [
   {
-    title: 'Dashboard',
+    title: "Dashboard",
     icon: LayoutGrid,
+    path: "/dashboard",
+  },
+
+  {
+    title: "Policies",
+    icon: FileText,
     children: [
-      { title: 'Light Sidebar', path: '/' },
-      { title: 'Dark Sidebar', path: '/dark-sidebar' },
+      {
+        title: "All Policies",
+        path: "/policies",
+      },
+      {
+        title: "New Policy",
+        path: "/policies/new",
+      },
+      {
+        title: "Quotes",
+        path: "/policies/quotes",
+      },
+      {
+        title: "Products",
+        path: "/policies/products",
+        disabled: true,
+      },
     ],
   },
-  
+
   {
-    title: 'Settings',
+    title: "Customers",
+    icon: Users,
+    children: [
+      {
+        title: "All Customers",
+        path: "/customers",
+      },
+      {
+        title: "Prospects",
+        path: "/customers/prospects",
+      },
+      {
+        title: "KYC & Documents",
+        path: "/customers/kyc",
+      },
+    ],
+  },
+
+  {
+    title: "Claims",
+    icon: Shield,
+    children: [
+      {
+        title: "Active Claims",
+        path: "/claims",
+      },
+      {
+        title: "New Claim",
+        path: "/claims/new",
+      },
+      {
+        title: "Claim History",
+        path: "/claims/history",
+      },
+    ],
+  },
+
+  {
+    title: "Payments",
+    icon: CreditCard,
+    children: [
+      {
+        title: "Dashboard",
+        path: "/payments",
+      },
+      {
+        title: "Collect Premium",
+        path: "/payments",
+      },
+      {
+        title: "Transactions",
+        path: "/payments/transactions",
+      },
+      {
+        title: "Nomba Checkout",
+        path: "/payments/checkout",
+      },
+    ],
+  },
+
+  {
+    title: "Renewals",
+    icon: RefreshCcw,
+    children: [
+      {
+        title: "Upcoming Renewals",
+        path: "/renewals",
+      },
+      {
+        title: "Renewal Reminders",
+        path: "/renewals/reminders",
+      },
+      {
+        title: "Expired Policies",
+        path: "/renewals/expired",
+      },
+    ],
+  },
+
+  {
+    title: "Copilot",
+    icon: Bot,
+    children: [
+      {
+        title: "AI Assistant",
+        path: "/copilot",
+      },
+      {
+        title: "Policy Assistant",
+        path: "/copilot/policies",
+      },
+      {
+        title: "Document Analyzer",
+        path: "/copilot/documents",
+      },
+    ],
+  },
+
+  {
+    title: "Reports",
+    icon: BarChart3,
+    children: [
+      {
+        title: "Revenue",
+        path: "/reports/revenue",
+      },
+      {
+        title: "Premiums",
+        path: "/reports/premiums",
+      },
+      {
+        title: "Claims",
+        path: "/reports/claims",
+      },
+      {
+        title: "Commissions",
+        path: "/reports/commissions",
+      },
+    ],
+  },
+
+  {
+    title: "Organization",
+    icon: Building2,
+    children: [
+      {
+        title: "Team Members",
+        path: "/organization/team",
+      },
+      {
+        title: "Roles & Permissions",
+        path: "/organization/roles",
+      },
+      {
+        title: "Insurance Partners",
+        path: "/organization/partners",
+      },
+      {
+        title: "Branches",
+        path: "/organization/branches",
+      },
+    ],
+  },
+
+  {
+    title: "Settings",
     icon: Settings,
     children: [
       {
-        title: 'Account',
-        children: [
-          { title: 'Get Started', path: '/account/home/get-started' },
-          { title: 'User Profile', path: '/account/home/user-profile' },
-          { title: 'Company Profile', path: '/account/home/company-profile' },
-          {
-            title: 'Settings - With Sidebar',
-            path: '/account/home/settings-sidebar',
-          },
-          {
-            title: 'Settings - Enterprise',
-            path: '/account/home/settings-enterprise',
-          },
-          { title: 'Settings - Plain', path: '/account/home/settings-plain' },
-          { title: 'Settings - Modal', path: '/account/home/settings-modal' },
-        ],
+        title: "Company",
+        path: "/settings/company",
       },
       {
-        title: 'Billing',
-        children: [
-          { title: 'Billing - Basic', path: '/account/billing/basic' },
-          {
-            title: 'Billing - Enterprise',
-            path: '/account/billing/enterprise',
-          },
-          { title: 'Plans', path: '/account/billing/plans' },
-          { title: 'Billing History', path: '/account/billing/history' },
-        ],
+        title: "Payment Integrations",
+        path: "/settings/payments",
       },
       {
-        title: 'Security',
-        children: [
-          { title: 'Get Started', path: '/account/security/get-started' },
-          { title: 'Security Overview', path: '/account/security/overview' },
-          {
-            title: 'Allowed IP Addresses',
-            path: '/account/security/allowed-ip-addresses',
-          },
-          {
-            title: 'Privacy Settings',
-            path: '/account/security/privacy-settings',
-          },
-          {
-            title: 'Device Management',
-            path: '/account/security/device-management',
-          },
-          {
-            title: 'Backup & Recovery',
-            path: '/account/security/backup-and-recovery',
-          },
-          {
-            title: 'Current Sessions',
-            path: '/account/security/current-sessions',
-          },
-          { title: 'Security Log', path: '/account/security/security-log' },
-        ],
+        title: "Notifications",
+        path: "/settings/notifications",
       },
       {
-        title: 'Members & Roles',
-        children: [
-          { title: 'Teams Starter', path: '/account/members/team-starter' },
-          { title: 'Teams', path: '/account/members/teams' },
-          { title: 'Team Info', path: '/account/members/team-info' },
-          {
-            title: 'Members Starter',
-            path: '/account/members/members-starter',
-          },
-          { title: 'Team Members', path: '/account/members/team-members' },
-          { title: 'Import Members', path: '/account/members/import-members' },
-          { title: 'Roles', path: '/account/members/roles' },
-          {
-            title: 'Permissions - Toggler',
-            path: '/account/members/permissions-toggle',
-          },
-          {
-            title: 'Permissions - Check',
-            path: '/account/members/permissions-check',
-          },
-        ],
+        title: "Security",
+        path: "/settings/security",
       },
-      { title: 'Integrations', path: '/account/integrations' },
-      { title: 'Notifications', path: '/account/notifications' },
-      { title: 'API Keys', path: '/account/api-keys' },
       {
-        title: 'More',
-        collapse: true,
-        collapseTitle: 'Show less',
-        expandTitle: 'Show 3 more',
-        children: [
-          { title: 'Appearance', path: '/account/appearance' },
-          { title: 'Invite a Friend', path: '/account/invite-a-friend' },
-          { title: 'Activity', path: '/account/activity' },
-        ],
+        title: "API Keys",
+        path: "/settings/api-keys",
       },
     ],
   },
-  {
-    title: 'Customers',
-    icon: Users,
-    children: [
-      { title: 'Get Started', path: '/network/get-started' },
-      {
-        title: 'Policyholder Cards',
-        children: [
-          { title: 'Mini Cards', path: '/network/user-cards/mini-cards' },
-          { title: 'Team Crew', path: '/network/user-cards/team-crew' },
-          { title: 'Author', path: '/network/user-cards/author' },
-          { title: 'NFT', path: '/network/user-cards/nft' },
-          { title: 'Social', path: '/network/user-cards/social' },
-        ],
-      },
-      {
-        title: 'Policyholder Table',
-        children: [
-          { title: 'Team Crew', path: '/network/user-table/team-crew' },
-          { title: 'App Roster', path: '/network/user-table/app-roster' },
-          {
-            title: 'Market Authors',
-            path: '/network/user-table/market-authors',
-          },
-          { title: 'SaaS Users', path: '/network/user-table/saas-users' },
-          { title: 'Store Clients', path: '/network/user-table/store-clients' },
-          { title: 'Visitors', path: '/network/user-table/visitors' },
-        ],
-      },
-      { title: 'Insurance Partners', path: '/network/cooperations', disabled: true },
-      { title: 'Prospects', path: '/network/leads', disabled: true },
-      { title: 'Beneficiaries', path: '/network/donators', disabled: true },
-    ],
-  },
-  { heading: 'Apps' },
-  {
-    title: 'Agents',
-    icon: ShieldUser,
-    children: [
-      {
-        title: 'Policyholders',
-        path: '/user-management/users',
-      },
-      {
-        title: 'Roles',
-        path: '/user-management/roles',
-      },
-      {
-        title: 'Permissions',
-        path: '/user-management/permissions',
-      },
-      {
-        title: 'Account',
-        path: '/user-management/account',
-      },
-      {
-        title: 'Logs',
-        path: '/user-management/logs',
-      },
-      {
-        title: 'Settings',
-        path: '/user-management/settings',
-      },
-    ],
-  },
-  
 ];
 
 export const MENU_SIDEBAR_CUSTOM: MenuConfig = [

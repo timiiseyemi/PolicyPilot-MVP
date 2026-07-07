@@ -161,3 +161,170 @@ enum UserStatus {
   ACTIVE
   BLOCKED
 }
+
+enum PolicyStatus {
+  DRAFT
+  ACTIVE
+  LAPSED
+  EXPIRED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum RenewalStatus {
+  DUE
+  REMINDED
+  RENEWED
+  EXPIRED
+}
+
+enum ClaimStatus {
+  OPEN
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  CLOSED
+}
+
+model Customer {
+  id String @id @default(cuid())
+
+  name  String
+  email String  @unique
+  phone String?
+
+  address     String?
+  occupation  String?
+  dateOfBirth DateTime?
+
+  organizationId String?
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+
+  policies Policy[]
+  payments Payment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([organizationId])
+}
+
+model Policy {
+  id String @id @default(cuid())
+
+  policyNumber String @unique
+
+  product String
+  insurer String
+
+  premium    Float
+  sumInsured Float?
+
+  startDate DateTime
+  endDate   DateTime
+
+  status PolicyStatus @default(DRAFT)
+
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
+
+  payments Payment[]
+  renewals Renewal[]
+  claims   Claim[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([customerId])
+}
+
+model Payment {
+  id String @id @default(cuid())
+
+  amount Float
+
+  status PaymentStatus @default(PENDING)
+
+  paymentMethod String?
+
+  checkoutLink String?
+
+  orderReference String? @unique
+
+  transactionReference String?
+
+  paidAt DateTime?
+
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
+
+  policyId String
+  policy   Policy @relation(fields: [policyId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([customerId])
+  @@index([policyId])
+}
+
+model Claim {
+  id String @id @default(cuid())
+
+  claimNumber String? @unique
+
+  title String
+
+  description String?
+
+  amount Float
+
+  status ClaimStatus @default(OPEN)
+
+  policyId String
+  policy   Policy @relation(fields: [policyId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([policyId])
+}
+
+model Organization {
+  id      String  @id @default(cuid())
+  name    String
+  email   String?
+  phone   String?
+  address String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  customers Customer[]
+}
+
+model Renewal {
+  id String @id @default(cuid())
+
+  dueDate DateTime
+
+  renewedAt DateTime?
+
+  reminderSent Boolean @default(false)
+
+  status RenewalStatus @default(DUE)
+
+  policyId String
+  policy   Policy @relation(fields: [policyId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([policyId])
+}

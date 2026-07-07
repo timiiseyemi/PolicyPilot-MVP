@@ -19,10 +19,12 @@ import { Demo1LightSidebarContent } from './';
 
 export function Demo1LightSidebarPage() {
   const [isOpen, setIsOpen] = useState(false);
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(2025, 0, 20),
-    to: addDays(new Date(2025, 0, 20), 20),
-  });
+  const today = new Date();
+
+const [date, setDate] = useState<DateRange | undefined>({
+  from: today,
+  to: addDays(today, 30),
+});
   const [tempDateRange, setTempDateRange] = useState<DateRange | undefined>(
     date,
   );
@@ -42,10 +44,10 @@ export function Demo1LightSidebarPage() {
     <Fragment>
       <Container>
         <Toolbar>
-          <ToolbarHeading
-            title="Dashboard"
-            description="Central Hub for Personal Customization"
-          />
+         <ToolbarHeading
+  title="Broker Dashboard"
+  description="Overview of your brokerage operations"
+/>
           <ToolbarActions>
             <Popover open={isOpen} onOpenChange={setIsOpen}>
               <PopoverTrigger asChild>

@@ -1,64 +1,56 @@
 import { Fragment } from 'react';
-import { toAbsoluteUrl } from '@/lib/helpers';
+import {
+  ShieldCheck,
+  Users,
+  Wallet,
+  FileWarning,
+  LucideIcon,
+} from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 
 interface IChannelStatsItem {
-  logo: string;
-  logoDark?: string;
+  icon: LucideIcon;
   info: string;
   desc: string;
-  path: string;
 }
 type IChannelStatsItems = Array<IChannelStatsItem>;
 
 const ChannelStats = () => {
   const items: IChannelStatsItems = [
-    { logo: 'linkedin-2.svg', info: '1,240', desc: 'Active Policies', path: '' },
-    { logo: 'youtube-2.svg', info: '45', desc: 'Pending Claims', path: '' },
-    {
-      logo: 'instagram-03.svg',
-      info: '$8.2M',
-      desc: 'Premium Collected',
-      path: '',
-    },
-    {
-      logo: 'tiktok.svg',
-      logoDark: 'tiktok-dark.svg',
-      info: '128',
-      desc: 'Renewals Due',
-      path: '',
-    },
-  ];
+  {
+    icon: ShieldCheck,
+    info: '1,248',
+    desc: 'Active Policies',
+  },
+  {
+    icon: Users,
+    info: '386',
+    desc: 'Customers',
+  },
+  {
+    icon: Wallet,
+    info: '₦82.4M',
+    desc: 'Premium Collected',
+  },
+  {
+    icon: FileWarning,
+    info: '12',
+    desc: 'Pending Claims',
+  },
+];
 
   const renderItem = (item: IChannelStatsItem, index: number) => {
     return (
       <Card key={index}>
-        <CardContent className="p-0 flex flex-col justify-between gap-6 h-full bg-cover rtl:bg-[left_top_-1.7rem] bg-[right_top_-1.7rem] bg-no-repeat channel-stats-bg">
-          {item.logoDark ? (
-            <>
-              <img
-                src={toAbsoluteUrl(`/media/brand-logos/${item.logo}`)}
-                className="dark:hidden w-7 mt-4 ms-5"
-                alt="image"
-              />
-              <img
-                src={toAbsoluteUrl(`/media/brand-logos/${item.logoDark}`)}
-                className="light:hidden w-7 mt-4 ms-5"
-                alt="image"
-              />
-            </>
-          ) : (
-            <img
-              src={toAbsoluteUrl(`/media/brand-logos/${item.logo}`)}
-              className="w-7 mt-4 ms-5"
-              alt="image"
-            />
-          )}
+        <CardContent className="p-0 flex flex-col justify-between gap-6 h-full">
+          <div className="mt-4 ms-5 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+  <item.icon className="h-6 w-6 text-primary" />
+</div>
           <div className="flex flex-col gap-1 pb-4 px-5">
             <span className="text-3xl font-semibold text-mono">
               {item.info}
             </span>
-            <span className="text-sm font-normal text-muted-forehead">
+            <span className="text-sm font-normal text-muted-foreground">
               {item.desc}
             </span>
           </div>
@@ -69,16 +61,7 @@ const ChannelStats = () => {
 
   return (
     <Fragment>
-      <style>
-        {`
-          .channel-stats-bg {
-            background-image: url('${toAbsoluteUrl('/media/images/2600x1600/bg-3.png')}');
-          }
-          .dark .channel-stats-bg {
-            background-image: url('${toAbsoluteUrl('/media/images/2600x1600/bg-3-dark.png')}');
-          }
-        `}
-      </style>
+     
 
       {items.map((item, index) => {
         return renderItem(item, index);

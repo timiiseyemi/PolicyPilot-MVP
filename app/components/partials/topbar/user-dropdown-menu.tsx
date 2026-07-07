@@ -60,7 +60,7 @@ export function UserDropdownMenu({ trigger }: { trigger: ReactNode }) {
             />
             <div className="flex flex-col">
               <Link
-                href="/account/home/get-started"
+                href="/account/home"
                 className="text-sm text-mono hover:text-primary font-semibold"
               >
                 {session?.user.name || ''}
@@ -73,9 +73,7 @@ export function UserDropdownMenu({ trigger }: { trigger: ReactNode }) {
               </Link>
             </div>
           </div>
-          <Badge variant="primary" appearance="light" size="sm">
-            Pro
-          </Badge>
+        
         </div>
 
         <DropdownMenuSeparator />
@@ -87,7 +85,7 @@ export function UserDropdownMenu({ trigger }: { trigger: ReactNode }) {
             className="flex items-center gap-2"
           >
             <UserCircle />
-            Public Profile
+            Broker Profile
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
@@ -104,16 +102,16 @@ export function UserDropdownMenu({ trigger }: { trigger: ReactNode }) {
         <DropdownMenuSub>
           <DropdownMenuSubTrigger className="flex items-center gap-2">
             <Settings />
-            My Account
+            Organization
           </DropdownMenuSubTrigger>
           <DropdownMenuSubContent className="w-48">
             <DropdownMenuItem asChild>
               <Link
-                href="/account/home/get-started"
+                href="/account/home"
                 className="flex items-center gap-2"
               >
                 <Coffee />
-                Get Started
+                Company Profile
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
@@ -131,7 +129,7 @@ export function UserDropdownMenu({ trigger }: { trigger: ReactNode }) {
                 className="flex items-center gap-2"
               >
                 <CreditCard />
-                Billing
+                Subscription
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
@@ -149,7 +147,7 @@ export function UserDropdownMenu({ trigger }: { trigger: ReactNode }) {
                 className="flex items-center gap-2"
               >
                 <Users />
-                Members & Roles
+                Broker Team
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
@@ -158,21 +156,13 @@ export function UserDropdownMenu({ trigger }: { trigger: ReactNode }) {
                 className="flex items-center gap-2"
               >
                 <BetweenHorizontalStart />
-                Integrations
+               Payment Integrations
               </Link>
             </DropdownMenuItem>
           </DropdownMenuSubContent>
         </DropdownMenuSub>
 
-        <DropdownMenuItem asChild>
-          <Link
-            href="https://devs.keenthemes.com"
-            className="flex items-center gap-2"
-          >
-            <FileText />
-            Dev Forum
-          </Link>
-        </DropdownMenuItem>
+        
 
         {/* Language Submenu with Radio Group */}
         <DropdownMenuSub>

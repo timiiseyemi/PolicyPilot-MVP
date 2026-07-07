@@ -1,9 +1,19 @@
-import { Fragment } from 'react';
-import Link from 'next/link';
-import { AvatarGroup } from '@/partials/common/avatar-group';
-import { toAbsoluteUrl } from '@/lib/helpers';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import Link from "next/link";
+import {
+  Bot,
+  ArrowRight,
+  CircleCheck,
+  Sparkles,
+} from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 interface IEntryCalloutProps {
   className: string;
@@ -11,55 +21,114 @@ interface IEntryCalloutProps {
 
 const EntryCallout = ({ className }: IEntryCalloutProps) => {
   return (
-    <Fragment>
-      <style>
-        {`
-          .entry-callout-bg {
-            background-image: url('${toAbsoluteUrl('/media/images/2600x1600/2.png')}');
-          }
-          .dark .entry-callout-bg {
-            background-image: url('${toAbsoluteUrl('/media/images/2600x1600/2-dark.png')}');
-          }
-        `}
-      </style>
+    <Card className={`h-full ${className}`}>
+      <CardHeader className="pb-3">
+        <div className="flex items-center gap-3">
+          <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center">
+            <Bot className="h-6 w-6 text-primary" />
+          </div>
 
-      <Card className={`h-full ${className}`}>
-        <CardContent className="p-10 bg-[length:80%] rtl:[background-position:-70%_25%] [background-position:175%_25%] bg-no-repeat entry-callout-bg">
-          <div className="flex flex-col justify-center gap-4">
-            <AvatarGroup
-              size="size-10"
-              group={[
-                { filename: '300-4.png' },
-                { filename: '300-1.png' },
-                { filename: '300-2.png' },
-                {
-                  fallback: 'S',
-                  variant: 'text-white text-xs ring-background bg-green-500',
-                },
-              ]}
-            />
-            <h2 className="text-xl font-semibold text-mono">
-              Connect Today & Join <br />
-              the{' '}
-              <Button mode="link" asChild className="text-xl font-semibold">
-                <Link href="#">PolicyPilot Network</Link>
-              </Button>
-            </h2>
-            <p className="text-sm font-normal text-secondary-foreground leading-5.5">
-              Enhance your projects with premium themes and <br />
-              templates. Join the PolicyPilot community today <br />
-              for top-quality designs and resources.
+          <div>
+            <CardTitle className="text-xl">
+              BrokerOS AI
+            </CardTitle>
+
+            <p className="text-sm text-muted-foreground mt-1">
+              Your intelligent insurance assistant
             </p>
           </div>
-        </CardContent>
-        <CardFooter className="justify-center">
-          <Button mode="link" underlined="dashed" asChild>
-            <Link href="#">Get Started</Link>
-          </Button>
-        </CardFooter>
-      </Card>
-    </Fragment>
+        </div>
+      </CardHeader>
+
+      <CardContent className="space-y-6">
+
+        <div>
+          <p className="font-medium">
+            Good afternoon, Timmy 👋
+          </p>
+
+          <p className="text-sm text-muted-foreground mt-1">
+            Here's what's happening today.
+          </p>
+        </div>
+
+        <div className="rounded-lg border bg-muted/30 p-4 space-y-3">
+
+          <div className="flex items-center gap-2">
+            <Sparkles className="h-4 w-4 text-primary" />
+            <span className="font-medium">
+              Today's Insights
+            </span>
+          </div>
+
+          <div className="space-y-2 text-sm">
+
+            <div className="flex items-center gap-2">
+              <CircleCheck className="text-green-600 h-4 w-4" />
+              12 policies expire this week
+            </div>
+
+            <div className="flex items-center gap-2">
+              <CircleCheck className="text-green-600 h-4 w-4" />
+              ₦2.8M outstanding premiums
+            </div>
+
+            <div className="flex items-center gap-2">
+              <CircleCheck className="text-green-600 h-4 w-4" />
+              4 claims awaiting approval
+            </div>
+
+            <div className="flex items-center gap-2">
+              <CircleCheck className="text-green-600 h-4 w-4" />
+              3 high-value customers require follow-up
+            </div>
+
+          </div>
+        </div>
+
+        <div className="space-y-2">
+
+          <h4 className="font-medium">
+            Suggested Actions
+          </h4>
+
+          <ul className="space-y-2 text-sm text-muted-foreground">
+
+            <li>• Generate renewal reminders</li>
+
+            <li>• Follow up outstanding premiums</li>
+
+            <li>• Review pending claims</li>
+
+            <li>• Identify at-risk policies</li>
+
+          </ul>
+
+        </div>
+
+      </CardContent>
+
+      <CardFooter>
+
+        <Button asChild className="w-full">
+
+          <Link href="/copilot">
+
+            Open AI Copilot
+
+            <ArrowRight className="ml-2 h-4 w-4" />
+
+          </Link>
+
+        </Button>
+
+      </CardFooter>
+
+    </Card>
   );
 };
 
-export { EntryCallout, type IEntryCalloutProps };
+export {
+  EntryCallout,
+  type IEntryCalloutProps,
+};

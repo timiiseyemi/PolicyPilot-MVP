@@ -22,31 +22,31 @@ export function AppsDropdownMenu({ trigger }: { trigger: ReactNode }) {
   const items: DropdownAppsItem[] = [
     {
       logo: 'jira.svg',
-      title: 'Jira',
+      title: 'New Policy',
       description: 'Project management',
       checkbox: false,
     },
     {
       logo: 'inferno.svg',
-      title: 'Inferno',
+      title: 'New Customer',
       description: 'Ensures healthcare app',
       checkbox: true,
     },
     {
       logo: 'evernote.svg',
-      title: 'Evernote',
+      title: 'Collect Premium',
       description: 'Notes management app',
       checkbox: true,
     },
     {
       logo: 'gitlab.svg',
-      title: 'Gitlab',
+      title: 'File Claim',
       description: 'DevOps platform',
       checkbox: false,
     },
     {
       logo: 'google-webdev.svg',
-      title: 'Google webdev',
+      title: 'AI Assistant',
       description: 'Building web experiences',
       checkbox: true,
     },

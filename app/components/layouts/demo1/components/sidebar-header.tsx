@@ -24,7 +24,7 @@ export function SidebarHeader() {
           <img
             src={toAbsoluteUrl('/media/app/default-logo.svg')}
             className="default-logo h-[22px] max-w-none"
-            alt="Default Logo"
+            alt="PolicyPilot Logo"
           />
           <img
             src={toAbsoluteUrl('/media/app/mini-logo.svg')}
@@ -36,7 +36,7 @@ export function SidebarHeader() {
           <img
             src={toAbsoluteUrl('/media/app/default-logo-dark.svg')}
             className="default-logo h-[22px] max-w-none"
-            alt="Default Dark Logo"
+            alt="PolicyPilot Dark Logo"
           />
           <img
             src={toAbsoluteUrl('/media/app/mini-logo.svg')}
