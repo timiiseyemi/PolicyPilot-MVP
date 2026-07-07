@@ -29,10 +29,35 @@ console.log("=============================");
     }
 
     const orderReference =
-      payload.data.order.orderReference;
+  payload.data.order?.orderReference;
 
-    const transactionReference =
-      payload.data.transaction.transactionId;
+if (!orderReference) {
+  console.log("Webhook payload:");
+  console.log(JSON.stringify(payload, null, 2));
+
+  return NextResponse.json(
+    {
+      error: "No orderReference found.",
+    },
+    {
+      status: 400,
+    }
+  );
+}
+
+   const transactionReference =
+  payload.data.transaction?.transactionId;
+
+if (!transactionReference) {
+  return NextResponse.json(
+    {
+      error: "No transaction reference found.",
+    },
+    {
+      status: 400,
+    }
+  );
+}
 
     await markPaymentSuccessful(
   orderReference,
