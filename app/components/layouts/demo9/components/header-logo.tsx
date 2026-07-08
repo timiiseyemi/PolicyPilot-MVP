@@ -31,14 +31,14 @@ export function HeaderLogo() {
       <div className="flex items-center gap-2 shrink-0">
         <Link href="/">
           <img
-            src={toAbsoluteUrl('/media/app/mini-logo-circle.svg')}
-            className="shrink-0 dark:hidden min-h-[34px]"
-            alt="logo"
+            src={toAbsoluteUrl('/media/logos/policypilot-logo.png')}
+            className="shrink-0 dark:hidden h-[25px]"
+            alt="PolicyPilot"
           />
           <img
-            src={toAbsoluteUrl('/media/app/mini-logo-circle-dark.svg')}
-            className="shrink-0 hidden dark:inline-block min-h-[34px]"
-            alt="logo"
+            src={toAbsoluteUrl('/media/logos/policypilot-logo.png')}
+            className="shrink-0 hidden dark:inline-block h-[25px]"
+            alt="PolicyPilot"
           />
         </Link>
         <h3 className="text-mono text-lg font-medium hidden md:block">

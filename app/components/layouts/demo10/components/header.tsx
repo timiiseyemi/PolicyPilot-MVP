@@ -34,9 +34,9 @@ export function Header() {
       <Container className="flex items-center justify-between flex-wrap gap-3">
         <Link href="/">
           <img
-            src={toAbsoluteUrl('/media/app/mini-logo-circle-success.svg')}
-            className="h-[34px]"
-            alt=""
+            src={toAbsoluteUrl('/media/logos/policypilot-logo.png')}
+            className="h-[25px]"
+            alt="PolicyPilot"
           />
         </Link>
 

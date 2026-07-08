@@ -4,8 +4,7 @@ import { ReactNode, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { SearchDialog } from '@/partials/dialogs/search/search-dialog';
-import { ChatSheet } from '@/partials/topbar/chat-sheet';
-import { Download, MessageCircleMore, Search } from 'lucide-react';
+import { Download, Search } from 'lucide-react';
 import { useBodyClass } from '@/hooks/use-body-class';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useSettings } from '@/providers/settings-provider';
@@ -60,17 +59,6 @@ export function Demo8Layout({ children }: { children: ReactNode }) {
                                   className="hover:[&_svg]:text-primary"
                                 >
                                   <Search className="size-4.5!" />
-                                </Button>
-                              }
-                            />
-                            <ChatSheet
-                              trigger={
-                                <Button
-                                  variant="ghost"
-                                  mode="icon"
-                                  className="hover:[&_svg]:text-primary"
-                                >
-                                  <MessageCircleMore className="size-4.5!" />
                                 </Button>
                               }
                             />

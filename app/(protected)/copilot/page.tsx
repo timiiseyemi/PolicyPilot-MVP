@@ -18,34 +18,44 @@ export default function CopilotPage() {
   const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const askAI = async () => {
-  if (!prompt.trim()) return;
+  const askAI = async (customPrompt?: string) => {
+    const finalPrompt = customPrompt || prompt;
+    if (!finalPrompt.trim()) return;
 
-  try {
-    setLoading(true);
-    setResponse("");
+    try {
+      setLoading(true);
+      setResponse("");
 
-    const res = await fetch("/api/copilot", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        prompt,
-      }),
-    });
+      const res = await fetch("/api/copilot", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt: finalPrompt,
+        }),
+      });
 
-    const data = await res.json();
+      if (!res.body) throw new Error("No response body");
 
-    setResponse(data.response || "No response received.");
-  } catch (err) {
-    console.error(err);
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let fullResponse = "";
 
-    setResponse("Something went wrong while talking to AI.");
-  } finally {
-    setLoading(false);
-  }
-};
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const text = decoder.decode(value, { stream: true });
+        fullResponse += text;
+        setResponse(fullResponse);
+      }
+    } catch (err) {
+      console.error(err);
+      setResponse("Something went wrong while talking to AI.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Container>
@@ -57,7 +67,7 @@ export default function CopilotPage() {
           prompt={prompt}
           setPrompt={setPrompt}
           loading={loading}
-          askAI={askAI}
+          askAI={() => askAI()}
         />
         <ResponseCard
     response={response}
@@ -67,24 +77,12 @@ export default function CopilotPage() {
 
         <QuickActions
     setPrompt={setPrompt}
+    askAI={askAI}
 />
 
-<div className="grid gap-6 lg:grid-cols-3">
-
-    <div className="space-y-6">
-
-        <SuggestedTasks />
-
-        <RecentConversations />
-
-    </div>
-
-    <div className="lg:col-span-2">
-
-        
-
-    </div>
-
+<div className="grid gap-6 md:grid-cols-2">
+  <SuggestedTasks />
+  <RecentConversations />
 </div>
 
         

@@ -2,10 +2,8 @@
 
 import { usePathname } from 'next/navigation';
 import { DropdownMenu2 } from '@/partials/dropdown-menu/dropdown-menu-2';
-import { ChatSheet } from '@/partials/topbar/chat-sheet';
-import { NotificationsSheet } from '@/partials/topbar/notifications-sheet';
 import { UserDropdownMenu } from '@/partials/topbar/user-dropdown-menu';
-import { ChevronDown, MessageCircleMore, MessageSquareDot } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { toAbsoluteUrl } from '@/lib/helpers';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -22,32 +20,6 @@ export function HeaderTopbar() {
       ) : (
         <>
           <div className="flex items-center gap-2 me-0.5">
-            <ChatSheet
-              trigger={
-                <Button
-                  variant="ghost"
-                  mode="icon"
-                  shape="circle"
-                  className="hover:bg-transparent hover:[&_svg]:text-primary"
-                >
-                  <MessageCircleMore className="size-4.5!" />
-                </Button>
-              }
-            />
-
-            <NotificationsSheet
-              trigger={
-                <Button
-                  variant="ghost"
-                  mode="icon"
-                  shape="circle"
-                  className="hover:bg-transparent hover:[&_svg]:text-primary"
-                >
-                  <MessageSquareDot className="size-4.5!" />
-                </Button>
-              }
-            />
-
             <UserDropdownMenu
               trigger={
                 <img

@@ -4,8 +4,7 @@ import { ReactNode, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { SearchDialog } from '@/partials/dialogs/search/search-dialog';
-import { NotificationsSheet } from '@/partials/topbar/notifications-sheet';
-import { Download, MessageSquareDot, Search } from 'lucide-react';
+import { Download, Search } from 'lucide-react';
 import { useBodyClass } from '@/hooks/use-body-class';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useSettings } from '@/providers/settings-provider';
@@ -61,17 +60,6 @@ export function Demo4Layout({ children }: { children: ReactNode }) {
                                   className="hover:[&_svg]:text-primary"
                                 >
                                   <Search className="size-4.5!" />
-                                </Button>
-                              }
-                            />
-                            <NotificationsSheet
-                              trigger={
-                                <Button
-                                  variant="ghost"
-                                  mode="icon"
-                                  className="hover:[&_svg]:text-primary"
-                                >
-                                  <MessageSquareDot className="size-4.5!" />
                                 </Button>
                               }
                             />

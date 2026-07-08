@@ -31,14 +31,14 @@ export function HeaderLogo() {
       {/* Logo Section */}
       <Link href="/" className="shrink-0">
         <img
-          src={toAbsoluteUrl('/media/app/mini-logo-circle.svg')}
-          className="dark:hidden min-h-[42px]"
-          alt="logo"
+          src={toAbsoluteUrl('/media/logos/policypilot-logo.png')}
+          className="dark:hidden h-[25px]"
+          alt="PolicyPilot"
         />
         <img
-          src={toAbsoluteUrl('/media/app/mini-logo-circle-dark.svg')}
-          className="hidden dark:inline-block min-h-[42px]"
-          alt="logo"
+          src={toAbsoluteUrl('/media/logos/policypilot-logo.png')}
+          className="hidden dark:inline-block h-[25px]"
+          alt="PolicyPilot"
         />
       </Link>
 

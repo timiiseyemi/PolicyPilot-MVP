@@ -31,14 +31,14 @@ export function Header() {
       <Container className="flex items-center justify-between flex-wrap gap-3">
         <Link href="/">
           <img
-            src={toAbsoluteUrl('/media/app/mini-logo-gray.svg')}
-            className="dark:hidden min-h-[30px]"
-            alt=""
+            src={toAbsoluteUrl('/media/logos/policypilot-logo.png')}
+            className="dark:hidden h-[25px]"
+            alt="PolicyPilot"
           />
           <img
-            src={toAbsoluteUrl('/media/app/mini-logo-gray-dark.svg')}
-            className="hidden dark:block min-h-[30px]"
-            alt=""
+            src={toAbsoluteUrl('/media/logos/policypilot-logo.png')}
+            className="hidden dark:block h-[25px]"
+            alt="PolicyPilot"
           />
         </Link>
 

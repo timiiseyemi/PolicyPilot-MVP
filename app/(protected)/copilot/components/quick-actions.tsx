@@ -7,103 +7,81 @@ import {
   TrendingUp,
   Users,
   AlertTriangle,
+  Zap,
 } from "lucide-react";
-
-import { Card, CardContent } from "@/components/ui/card";
 
 const actions = [
   {
     title: "Draft Renewal Email",
     description: "Generate personalized renewal reminders.",
     icon: Mail,
-    prompt:
-      "Draft a professional renewal reminder email for a customer's insurance policy.",
+    prompt: "Draft a professional renewal reminder email for a customer's insurance policy.",
   },
   {
     title: "Summarize Policy",
     description: "Explain any policy in simple language.",
     icon: FileText,
-    prompt:
-      "Summarize this insurance policy in simple language a customer can understand.",
+    prompt: "Summarize this insurance policy in simple language a customer can understand.",
   },
   {
     title: "Explain Coverage",
     description: "Help customers understand benefits & exclusions.",
     icon: Shield,
-    prompt:
-      "Explain the coverage, exclusions and benefits of this policy.",
+    prompt: "Explain the coverage, exclusions and benefits of this policy.",
   },
   {
-    title: "Cross-sell Opportunities",
+    title: "Cross-sell Recommendation",
     description: "Recommend additional insurance products.",
     icon: TrendingUp,
-    prompt:
-      "Recommend additional insurance products this customer should consider.",
+    prompt: "Recommend additional insurance products this customer should consider.",
   },
   {
-    title: "Analyze Customer Portfolio",
+    title: "Analyze Portfolio",
     description: "Review a customer's policies and risks.",
     icon: Users,
-    prompt:
-      "Analyze this customer's insurance portfolio and identify risks.",
+    prompt: "Analyze this customer's insurance portfolio and identify risks.",
   },
   {
-    title: "Detect Lapsed Policies",
-    description: "Identify policies requiring immediate attention.",
+    title: "Generate Risk Report",
+    description: "Create a comprehensive risk assessment.",
     icon: AlertTriangle,
-    prompt:
-      "Identify policies that have lapsed or are close to expiry.",
+    prompt: "Generate a detailed risk assessment report for this customer.",
   },
 ];
 
 interface QuickActionsProps {
   setPrompt: (value: string) => void;
+  askAI: (prompt: string) => void;
 }
 
-export function QuickActions({
-  setPrompt,
-}: QuickActionsProps) {
+export function QuickActions({ setPrompt, askAI }: QuickActionsProps) {
   return (
-    <div>
-
-      <h2 className="text-lg font-semibold mb-4">
-        Quick AI Actions
-      </h2>
-
-      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-
-        {actions.map((action) => {
-          const Icon = action.icon;
-
-          return (
-            <Card
-    onClick={() => setPrompt(action.prompt)}
-              key={action.title}
-              className="cursor-pointer transition-all hover:shadow-lg hover:-translate-y-1 hover:border-primary"
-            >
-              <CardContent className="p-6">
-
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
-
-                  <Icon className="w-6 h-6 text-primary" />
-
-                </div>
-
-                <h3 className="font-semibold text-lg mb-2">
-                  {action.title}
-                </h3>
-
-                <p className="text-sm text-muted-foreground leading-6">
-                  {action.description}
-                </p>
-
-              </CardContent>
-            </Card>
-          );
-        })}
-
+    <div className="space-y-4">
+      <div className="flex items-center gap-2 text-muted-foreground">
+        <Zap className="w-4 h-4" />
+        <h2 className="text-sm font-medium uppercase tracking-wider">Quick Actions</h2>
       </div>
 
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {actions.map((action) => {
+          const Icon = action.icon;
+          return (
+            <button
+              key={action.title}
+              onClick={() => askAI(action.prompt)}
+              className="flex flex-col gap-3 p-5 rounded-2xl border bg-background/50 backdrop-blur-md transition-all hover:border-primary/50 hover:bg-primary/5 text-left group"
+            >
+              <div className="size-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-105 transition-transform">
+                <Icon className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-semibold">{action.title}</h3>
+                <p className="text-xs text-muted-foreground mt-1">{action.description}</p>
+              </div>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

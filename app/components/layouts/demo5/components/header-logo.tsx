@@ -115,14 +115,14 @@ export function HeaderLogo() {
     <div className="flex items-center gap-1.5 lg:gap-5">
       <Link href="/">
         <img
-          src={toAbsoluteUrl('/media/app/mini-logo-circle.svg')}
-          className="dark:hidden min-h-[34px]"
-          alt="logo"
+          src={toAbsoluteUrl('/media/logos/policypilot-logo.png')}
+          className="dark:hidden h-[25px]"
+          alt="PolicyPilot"
         />
         <img
-          src={toAbsoluteUrl('/media/app/mini-logo-circle-dark.svg')}
-          className="hidden dark:inline-block min-h-[34px]"
-          alt="logo"
+          src={toAbsoluteUrl('/media/logos/policypilot-logo.png')}
+          className="hidden dark:inline-block h-[25px]"
+          alt="PolicyPilot"
         />
       </Link>
 

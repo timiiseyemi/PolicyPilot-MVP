@@ -59,14 +59,14 @@ export function HeaderLogo() {
 
         <Link href="/" className="mx-1">
           <img
-            src={toAbsoluteUrl('/media/app/mini-logo-primary.svg')}
-            className="dark:hidden min-h-[24px]"
-            alt="logo"
+            src={toAbsoluteUrl('/media/logos/policypilot-logo.png')}
+            className="dark:hidden h-[25px]"
+            alt="PolicyPilot"
           />
           <img
-            src={toAbsoluteUrl('/media/app/mini-logo-primary-dark.svg')}
-            className="hidden dark:inline-block min-h-[24px]"
-            alt="logo"
+            src={toAbsoluteUrl('/media/logos/policypilot-logo.png')}
+            className="hidden dark:inline-block h-[25px]"
+            alt="PolicyPilot"
           />
         </Link>
       </div>

@@ -2,10 +2,8 @@
 
 import { usePathname } from 'next/navigation';
 import { SearchDialog } from '@/partials/dialogs/search/search-dialog';
-import { ChatSheet } from '@/partials/topbar/chat-sheet';
-import { NotificationsSheet } from '@/partials/topbar/notifications-sheet';
 import { UserDropdownMenu } from '@/partials/topbar/user-dropdown-menu';
-import { MessageCircleMore, MessageSquareDot, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { toAbsoluteUrl } from '@/lib/helpers';
 import { Button } from '@/components/ui/button';
 import { StoreClientTopbar } from '@/app/(protected)/store-client/components/common/topbar';
@@ -29,31 +27,6 @@ export function HeaderTopbar() {
                   className="size-9"
                 >
                   <Search className="size-4.5!" />
-                </Button>
-              }
-            />
-            <ChatSheet
-              trigger={
-                <Button
-                  variant="ghost"
-                  mode="icon"
-                  shape="circle"
-                  className="size-9"
-                >
-                  <MessageCircleMore className="size-4.5!" />
-                </Button>
-              }
-            />
-            <NotificationsSheet
-              trigger={
-                <Button
-                  variant="ghost"
-                  mode="icon"
-                  size="sm"
-                  shape="circle"
-                  className="size-9"
-                >
-                  <MessageSquareDot className="size-4.5!" />
                 </Button>
               }
             />

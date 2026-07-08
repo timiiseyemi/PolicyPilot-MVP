@@ -27,7 +27,7 @@ export const MENU_SIDEBAR: MenuConfig = [
   {
     title: "Dashboard",
     icon: LayoutGrid,
-    path: "/dashboard",
+    path: "/",
   },
 
   {
@@ -654,27 +654,6 @@ export const MENU_HELP: MenuConfig = [
     title: 'Getting Started',
     icon: Coffee,
     path: 'https://keenthemes.com/metronic/tailwind/docs/getting-started/installation',
-  },
-  {
-    title: 'Support Forum',
-    icon: AlertCircle,
-    children: [
-      {
-        title: 'All Questions',
-        icon: FileQuestion,
-        path: 'https://devs.keenthemes.com',
-      },
-      {
-        title: 'Popular Questions',
-        icon: Star,
-        path: 'https://devs.keenthemes.com/popular',
-      },
-      {
-        title: 'Ask Question',
-        icon: HelpCircle,
-        path: 'https://devs.keenthemes.com/question/create',
-      },
-    ],
   },
   {
     title: 'Licenses & FAQ',

@@ -8,14 +8,14 @@ export function SidebarHeader() {
     <div className="hidden lg:flex items-center justify-center shrink-0 pt-8 pb-3.5">
       <Link href="/">
         <img
-          src={toAbsoluteUrl('/media/app/mini-logo-square-gray.svg')}
-          className="dark:hidden min-h-[42px]"
-          alt=""
+          src={toAbsoluteUrl('/media/logos/policypilot-logo.png')}
+          className="dark:hidden h-[25px]"
+          alt="PolicyPilot"
         />
         <img
-          src={toAbsoluteUrl('/media/app/mini-logo-square-gray-dark.svg')}
-          className="hidden dark:block min-h-[42px]"
-          alt=""
+          src={toAbsoluteUrl('/media/logos/policypilot-logo.png')}
+          className="hidden dark:block h-[25px]"
+          alt="PolicyPilot"
         />
       </Link>
     </div>

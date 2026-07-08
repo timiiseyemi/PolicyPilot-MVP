@@ -20,9 +20,9 @@ export function ClassicLayout({ children }: { children: ReactNode }) {
         <div className="m-5">
           <Link href="/">
             <img
-              src={toAbsoluteUrl('/media/app/mini-logo.svg')}
+              src={toAbsoluteUrl('/media/logos/policypilot-logo.png')}
               className="h-[35px] max-w-none"
-              alt=""
+              alt="PolicyPilot"
             />
           </Link>
         </div>

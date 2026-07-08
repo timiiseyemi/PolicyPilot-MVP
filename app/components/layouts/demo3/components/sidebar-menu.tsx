@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import {
   BarChart3,
-  Bell,
   CheckSquare,
   Code,
   HelpCircle,
@@ -62,11 +61,6 @@ export function SidebarMenu() {
       icon: MessageSquare,
       path: '/account/security/security-log',
       title: 'Security Logs',
-    },
-    {
-      icon: Bell,
-      path: '/account/notifications',
-      title: 'Notifications',
     },
     {
       icon: CheckSquare,

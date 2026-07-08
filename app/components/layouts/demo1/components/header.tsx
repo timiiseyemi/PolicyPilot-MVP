@@ -4,15 +4,9 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { SearchDialog } from '@/partials/dialogs/search/search-dialog';
-import { AppsDropdownMenu } from '@/partials/topbar/apps-dropdown-menu';
-import { ChatSheet } from '@/partials/topbar/chat-sheet';
-import { NotificationsSheet } from '@/partials/topbar/notifications-sheet';
 import { UserDropdownMenu } from '@/partials/topbar/user-dropdown-menu';
 import {
-  Bell,
-  LayoutGrid,
   Menu,
-  MessageCircleMore,
   Search,
 } from 'lucide-react';
 import { toAbsoluteUrl } from '@/lib/helpers';
@@ -57,40 +51,41 @@ export function Header() {
     >
       <Container className="flex justify-between items-stretch lg:gap-4">
         {/* HeaderLogo */}
-        <div className="flex gap-1 lg:hidden items-center gap-2.5">
-          <Link href="/" className="shrink-0">
-            <img
-              src={toAbsoluteUrl('/media/app/mini-logo.svg')}
-              className="h-[25px] w-full"
-              alt="mini-logo"
-            />
-          </Link>
-          <div className="flex items-center">
-            {mobileMode && (
-              <Sheet
-                open={isSidebarSheetOpen}
-                onOpenChange={setIsSidebarSheetOpen}
-              >
-                <SheetTrigger asChild>
-                  <Button variant="ghost" mode="icon">
-                    <Menu className="text-muted-foreground/70" />
-                  </Button>
-                </SheetTrigger>
-                <SheetContent
-                  className="p-0 gap-0 w-[275px]"
-                  side="left"
-                  close={false}
+        {pathname !== '/dashboard' && pathname !== '/' && (
+          <div className="flex gap-1 lg:hidden items-center gap-2.5">
+            <Link href="/" className="shrink-0">
+              <img
+                src={toAbsoluteUrl('/media/logos/policypilot-logo.png')}
+                className="h-[30px] w-full"
+                alt="PolicyPilot"
+              />
+            </Link>
+            <div className="flex items-center">
+              {mobileMode && (
+                <Sheet
+                  open={isSidebarSheetOpen}
+                  onOpenChange={setIsSidebarSheetOpen}
                 >
-                  <SheetHeader className="p-0 space-y-0" />
-                  <SheetBody className="p-0 overflow-y-auto">
-                    <SidebarMenu />
-                  </SheetBody>
-                </SheetContent>
-              </Sheet>
-            )}
-           
+                  <SheetTrigger asChild>
+                    <Button variant="ghost" mode="icon">
+                      <Menu className="text-muted-foreground/70" />
+                    </Button>
+                  </SheetTrigger>
+                  <SheetContent
+                    className="p-0 gap-0 w-[275px]"
+                    side="left"
+                    close={false}
+                  >
+                    <SheetHeader className="p-0 space-y-0" />
+                    <SheetBody className="p-0 overflow-y-auto">
+                      <SidebarMenu />
+                    </SheetBody>
+                  </SheetContent>
+                </Sheet>
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Main Content */}
         <Breadcrumb />
@@ -115,42 +110,6 @@ export function Header() {
                   }
                 />
               )}
-              <NotificationsSheet
-                trigger={
-                  <Button
-                    variant="ghost"
-                    mode="icon"
-                    shape="circle"
-                    className="size-9 hover:bg-primary/10 hover:[&_svg]:text-primary"
-                  >
-                    <Bell className="size-4.5!" />
-                  </Button>
-                }
-              />
-              <ChatSheet
-                trigger={
-                  <Button
-                    variant="ghost"
-                    mode="icon"
-                    shape="circle"
-                    className="size-9 hover:bg-primary/10 hover:[&_svg]:text-primary"
-                  >
-                    <MessageCircleMore className="size-4.5!" />
-                  </Button>
-                }
-              />
-              <AppsDropdownMenu
-                trigger={
-                  <Button
-                    variant="ghost"
-                    mode="icon"
-                    shape="circle"
-                    className="size-9 hover:bg-primary/10 hover:[&_svg]:text-primary"
-                  >
-                    <LayoutGrid className="size-4.5!" />
-                  </Button>
-                }
-              />
               <UserDropdownMenu
                 trigger={
                   <img

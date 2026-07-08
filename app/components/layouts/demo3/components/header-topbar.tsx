@@ -3,14 +3,8 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { SearchDialog } from '@/partials/dialogs/search/search-dialog';
-import { AppsDropdownMenu } from '@/partials/topbar/apps-dropdown-menu';
-import { ChatSheet } from '@/partials/topbar/chat-sheet';
-import { NotificationsSheet } from '@/partials/topbar/notifications-sheet';
 import { UserDropdownMenu } from '@/partials/topbar/user-dropdown-menu';
 import {
-  LayoutGrid,
-  MessageCircleMore,
-  MessageSquareDot,
   Search,
 } from 'lucide-react';
 import { toAbsoluteUrl } from '@/lib/helpers';
@@ -39,42 +33,6 @@ export function HeaderTopbar() {
                   className="hover:[&_svg]:text-primary"
                 >
                   <Search className="size-4.5!" />
-                </Button>
-              }
-            />
-            <ChatSheet
-              trigger={
-                <Button
-                  variant="ghost"
-                  mode="icon"
-                  shape="circle"
-                  className="hover:[&_svg]:text-primary"
-                >
-                  <MessageCircleMore className="size-4.5!" />
-                </Button>
-              }
-            />
-            <AppsDropdownMenu
-              trigger={
-                <Button
-                  variant="ghost"
-                  mode="icon"
-                  shape="circle"
-                  className="hover:[&_svg]:text-primary"
-                >
-                  <LayoutGrid className="size-4.5!" />
-                </Button>
-              }
-            />
-            <NotificationsSheet
-              trigger={
-                <Button
-                  variant="ghost"
-                  mode="icon"
-                  shape="circle"
-                  className="hover:[&_svg]:text-primary"
-                >
-                  <MessageSquareDot className="size-4.5!" />
                 </Button>
               }
             />

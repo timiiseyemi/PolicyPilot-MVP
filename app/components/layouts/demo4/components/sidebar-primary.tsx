@@ -3,16 +3,11 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { AppsDropdownMenu } from '@/partials/topbar/apps-dropdown-menu';
-import { ChatSheet } from '@/partials/topbar/chat-sheet';
 import { UserDropdownMenu } from '@/partials/topbar/user-dropdown-menu';
 import {
   BarChart3,
-  Bell,
   CheckSquare,
   Code,
-  LayoutGrid,
-  MessageCircleMore,
   MessageSquare,
   Settings,
   Shield,
@@ -85,12 +80,6 @@ const menuItems: MenuItem[] = [
     rootPath: '/account/',
   },
   {
-    icon: Bell,
-    tooltip: 'Notifications',
-    path: '/account/notifications',
-    rootPath: '',
-  },
-  {
     icon: CheckSquare,
     tooltip: 'ACL',
     path: '/account/members/roles',
@@ -141,14 +130,14 @@ export function SidebarPrimary() {
         >
           <Link href="/">
             <img
-              src={toAbsoluteUrl('/media/app/mini-logo-gray.svg')}
-              className="dark:hidden min-h-[30px]"
-              alt=""
+              src={toAbsoluteUrl('/media/logos/policypilot-logo.png')}
+              className="dark:hidden h-[25px]"
+              alt="PolicyPilot"
             />
             <img
-              src={toAbsoluteUrl('/media/app/mini-logo-gray-dark.svg')}
-              className="hidden dark:block min-h-[30px]"
-              alt=""
+              src={toAbsoluteUrl('/media/logos/policypilot-logo.png')}
+              className="hidden dark:block h-[25px]"
+              alt="PolicyPilot"
             />
           </Link>
         </div>
@@ -189,28 +178,6 @@ export function SidebarPrimary() {
           ref={footerRef}
           className="flex flex-col gap-4 items-center shrink-0"
         >
-          <ChatSheet
-            trigger={
-              <Button
-                variant="ghost"
-                mode="icon"
-                className="size-9 hover:bg-background hover:[&_svg]:text-primary"
-              >
-                <MessageCircleMore className="size-4.5!" />
-              </Button>
-            }
-          />
-          <AppsDropdownMenu
-            trigger={
-              <Button
-                variant="ghost"
-                mode="icon"
-                className="size-9 hover:bg-background hover:[&_svg]:text-primary"
-              >
-                <LayoutGrid className="size-4.5!" />
-              </Button>
-            }
-          />
           <UserDropdownMenu
             trigger={
               <img
