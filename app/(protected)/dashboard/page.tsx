@@ -1,6 +1,9 @@
+"use client";
+
 import { Container } from "@/components/common/container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { motion } from "motion/react";
 import { 
   ArrowUpRight, 
   ShieldCheck, 
@@ -10,10 +13,18 @@ import {
   Plus, 
   FileText,
   TrendingUp,
-  Clock
+  Clock,
+  ArrowDownRight
 } from "lucide-react";
 
 export default function DashboardPage() {
+  const kpis = [
+    { title: "Total Premiums", value: "₦124.5M", change: "+12.5%", trend: "up", icon: Wallet },
+    { title: "Active Policies", value: "842", change: "+2.4%", trend: "up", icon: ShieldCheck },
+    { title: "Pending Renewals", value: "28", change: "-5.1%", trend: "down", icon: RefreshCcw },
+    { title: "AI Opportunities", value: "12", change: "+8.9%", trend: "up", icon: Sparkles },
+  ];
+
   return (
     <Container className="py-10 max-w-7xl">
       {/* Header */}
@@ -23,31 +34,31 @@ export default function DashboardPage() {
           <p className="text-muted-foreground mt-2 text-lg">Your brokerage performance summary at a glance.</p>
         </div>
         <div className="flex gap-3">
-          <Button variant="outline" size="lg" className="rounded-full"><FileText className="w-4 h-4 mr-2" /> Export Report</Button>
-          <Button size="lg" className="rounded-full shadow-primary/20 shadow-lg"><Plus className="w-4 h-4 mr-2" /> New Policy</Button>
+          <Button variant="outline" size="lg" className="rounded-xl"><FileText className="w-4 h-4 mr-2" /> Export Report</Button>
+          <Button size="lg" className="rounded-xl shadow-lg"><Plus className="w-4 h-4 mr-2" /> New Policy</Button>
         </div>
       </div>
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-        {[
-          { title: "Total Premiums", value: "₦124.5M", icon: Wallet, gradient: "from-blue-600 to-cyan-500" },
-          { title: "Active Policies", value: "842", icon: ShieldCheck, gradient: "from-indigo-600 to-purple-500" },
-          { title: "Pending Renewals", value: "28", icon: RefreshCcw, gradient: "from-amber-500 to-orange-500" },
-          { title: "AI Opportunities", value: "12", icon: Sparkles, gradient: "from-emerald-600 to-teal-500" },
-        ].map((kpi, i) => (
-          <div key={i} className={`bg-gradient-to-br ${kpi.gradient} p-6 rounded-3xl shadow-xl shadow-black/5 text-white transform transition-transform hover:scale-105`}>
-            <div className="flex justify-between items-start mb-6">
-              <div className="p-3 bg-white/20 backdrop-blur-sm rounded-2xl">
-                <kpi.icon className="w-7 h-7 text-white" />
+        {kpis.map((kpi, i) => (
+          <motion.div
+            key={i}
+            whileHover={{ y: -4 }}
+            className="group relative p-6 rounded-2xl border bg-card text-card-foreground shadow-sm hover:shadow-md transition-all"
+          >
+            <div className="flex justify-between items-start mb-4">
+              <div className="p-2 rounded-xl bg-muted/50 text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+                <kpi.icon className="w-5 h-5" />
               </div>
-              <span className="flex items-center text-sm font-medium bg-white/20 px-2 py-1 rounded-md">
-                +2.4% <ArrowUpRight className="w-4 h-4 ml-1" />
+              <span className={`flex items-center text-xs font-semibold px-2 py-0.5 rounded-full ${kpi.trend === 'up' ? 'bg-emerald-500/10 text-emerald-600' : 'bg-red-500/10 text-red-600'}`}>
+                {kpi.change}
+                {kpi.trend === 'up' ? <ArrowUpRight className="w-3 h-3 ml-1" /> : <ArrowDownRight className="w-3 h-3 ml-1" />}
               </span>
             </div>
-            <div className="text-4xl font-extrabold tracking-tight">{kpi.value}</div>
-            <div className="text-white/80 mt-1 font-medium text-lg">{kpi.title}</div>
-          </div>
+            <div className="text-3xl font-bold tracking-tight">{kpi.value}</div>
+            <div className="text-muted-foreground text-sm font-medium mt-1">{kpi.title}</div>
+          </motion.div>
         ))}
       </div>
 
@@ -92,7 +103,7 @@ export default function DashboardPage() {
             <CardContent className="space-y-4">
               <div className="p-5 bg-primary/5 rounded-2xl border border-primary/10 hover:border-primary/30 transition-colors">
                 <p className="text-sm text-foreground leading-relaxed">Suggest cross-selling motor insurance to John Doe based on home policy expiry.</p>
-                <Button variant="link" size="sm" className="px-0 mt-2">View Customer</Button>
+                <Button variant="ghost" size="sm" className="px-0 mt-2">View Customer</Button>
               </div>
             </CardContent>
           </Card>
