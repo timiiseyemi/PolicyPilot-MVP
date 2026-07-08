@@ -1,66 +1,264 @@
-# Metronic 9 | All-in-One Tailwind based HTML/React/Next.js Template for Modern Web Applications
+# 🛡️ PolicyPilot
 
-## Getting Started
+AI-powered Insurance Brokerage Platform built with Nomba APIs.
 
-The official [Metronic Next.js Documentation](https://docs.keenthemes.com/metronic-nextjs) will be released soon,
-alongside the stable Metronic release, expected within the next week.
+PolicyPilot helps insurance brokers digitize their workflow by managing customers, policies, payments, renewals, claims, and AI-assisted operations from one dashboard.
 
-### Prerequisites
+---
 
-- Node.js 16.x or higher
-- Npm or Yarn
-- Tailwind CSS 4.x
-- React 19.x
-- Next.js 15.3.x
-- PostgreSQL 17.4.x
+## 🚀 Overview
 
-## ReUI Components
+PolicyPilot modernizes insurance brokerage operations by combining payment infrastructure from Nomba with AI-powered productivity tools.
 
-Metronic now leverages [ReUI](https://v1.reui.io), our open-source React component library.
+Instead of managing policies manually through spreadsheets and emails, brokers can:
 
-Star the [ReUI on GitHub](https://github.com/keenthemes/reui) to help us grow the project and stay updated on new features!
+- Create insurance policies
+- Manage customers
+- Accept premium payments
+- Track payment status
+- Manage claims
+- Monitor renewals
+- Generate AI-powered policy summaries
+- Draft renewal emails
+- Explain insurance coverage using AI
 
-### Installation
+---
 
-To set up the project dependencies, including those required for React 19, use the `--force` flag to resolve any dependency conflicts:
+## ✨ Features
+
+### 👥 Customer Management
+
+- Customer profiles
+- Prospect management
+- KYC records
+- Customer search
+
+---
+
+### 📄 Policy Management
+
+- Create policies
+- View active policies
+- Policy numbers
+- Product categories
+- Premium tracking
+- Insurer information
+
+---
+
+### 💳 Payments (Powered by Nomba)
+
+- Generate payment links
+- Premium collection
+- Payment verification
+- Transaction history
+- Payment status tracking
+
+---
+
+### 🔁 Renewals
+
+- Upcoming renewals
+- Renewal reminders
+- Renewal tracking
+
+---
+
+### 🛡 Claims
+
+- Claims management
+- Claims history
+- Claims status
+
+---
+
+### 🤖 AI Copilot
+
+BrokerOS AI helps brokers:
+
+- Summarize policies
+- Draft renewal emails
+- Explain insurance coverage
+- Recommend cross-selling opportunities
+- Analyze customer portfolios
+- Answer insurance-related questions
+
+---
+
+## 🏗 Tech Stack
+
+### Frontend
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- Metronic UI
+
+### Backend
+
+- Next.js API Routes
+
+### Database
+
+- PostgreSQL
+- Prisma ORM
+
+### Authentication
+
+- NextAuth.js
+
+### Payments
+
+- Nomba Checkout
+- Nomba Payment Verification API
+- Nomba Webhooks
+
+### AI
+
+- OpenRouter
+- Llama Models
+
+### Deployment
+
+- Vercel
+
+---
+
+## 📷 Screens
+
+- Dashboard
+- Customers
+- Policies
+- Claims
+- Payments
+- Renewals
+- AI Copilot
+
+---
+
+## 🔄 Payment Flow
+
+1. Broker creates a policy.
+2. Customer receives a payment link.
+3. Customer completes payment via Nomba Checkout.
+4. Nomba sends payment confirmation.
+5. Policy payment status updates automatically.
+6. Broker can view payment history.
+
+---
+
+## 🤖 AI Workflow
+
+Broker enters a request such as:
+
+> Draft a renewal reminder for John Doe.
+
+The AI Copilot generates:
+
+- Professional renewal emails
+- Policy summaries
+- Coverage explanations
+- Cross-selling suggestions
+- Customer portfolio insights
+
+---
+
+## 🛠 Installation
+
+Clone the repository.
 
 ```bash
-npm install --force
+git clone https://github.com/timiiseyemi/PolicyPilot-MVP.git
 ```
 
-### Database Deployment
-
-This will create the necessary tables in database for user authorization and user management apps :
+Install dependencies.
 
 ```bash
-npx prisma db push
+npm install
 ```
 
-Once your schema is deployed, you need to generate the Prisma Client:
+Create a `.env` file.
+
+```env
+DATABASE_URL=
+
+NEXTAUTH_SECRET=
+
+NEXTAUTH_URL=
+
+NOMBA_CLIENT_ID=
+
+NOMBA_CLIENT_SECRET=
+
+NOMBA_ACCOUNT_ID=
+
+OPENROUTER_API_KEY=
+```
+
+Run Prisma.
 
 ```bash
-npx prisma generate
+npx prisma migrate dev
 ```
 
-### Development
-
-Start the development server:
+Start the project.
 
 ```bash
 npm run dev
 ```
 
-### Setting Up the Demo Layout
+---
 
-Open `app/(protected)/layout.tsx` and change `Demo1Layout` to any demo, for example, `Demo5Layout` and you will switch entire app layout to the selected demo.
+## 📁 Project Structure
 
-```bash
-<Demo5Layout>
-	{children}
-</Demo5Layout>
+```
+app/
+components/
+lib/
+services/
+prisma/
+public/
 ```
 
-### Reporting Issues
+---
 
-If you encounter any issues or have suggestions for improvement, please contact us at [support@keenthemes.com](mailto:support@keenthemes.com).
-Include a detailed description of the issue or suggestion, and we will work to address it in the next stable release.
+## 🔮 Future Roadmap
+
+- Commission management
+- Automated policy renewals
+- Broker analytics dashboard
+- AI risk assessment
+- AI claims analysis
+- Customer self-service portal
+- WhatsApp notifications
+- Multi-broker support
+- Multi-tenant architecture
+- Role-based permissions
+
+---
+
+## 🏆 Built For
+
+Nomba Hackathon 2026
+
+Theme:
+
+Building modern financial products powered by Nomba APIs.
+
+---
+
+## 👨‍💻 Author
+
+**Oluwatimilehin Iseyemi**
+
+Frontend Developer • Cloud Practitioner • Insurance Technology Enthusiast
+
+GitHub:
+https://github.com/timiiseyemi
+
+---
+
+## 📄 License
+
+MIT License
