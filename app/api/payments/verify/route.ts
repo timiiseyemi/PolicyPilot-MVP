@@ -1,44 +1,24 @@
 import { NextResponse } from "next/server";
 import { markPaymentSuccessful } from "@/services/payments/payment-service";
-import { getNombaAccessToken,NOMBA_BASE_URL, } from "@/lib/nomba";
-
-
+import { verifyNombaTransaction } from "@/services/nomba/checkout";
 
 export async function POST(req: Request) {
   try {
     const { orderReference } = await req.json();
 
-    console.log("=================================");
-console.log("ORDER REFERENCE FROM CALLBACK");
-console.log(orderReference);
-console.log("=================================");
+    console.log(`[Verification Started] OrderReference: ${orderReference}`);
 
-    const accessToken = await getNombaAccessToken();
-
-    const response = await fetch(
-  `${NOMBA_BASE_URL}/transactions/accounts/single?orderReference=${orderReference}`,
-  {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      accountId: process.env.NOMBA_ACCOUNT_ID!,
-    },
-  }
-);
-
-    const result = await response.json();
-
-    console.log("Verify Response:");
-console.log(JSON.stringify(result, null, 2));
-
-    if (result.code !== "00") {
+    if (!orderReference) {
       return NextResponse.json(
-        { error: result.description },
+        { error: "Order reference is required." },
         { status: 400 }
       );
     }
 
-    const transaction = result.data;
-    console.log(JSON.stringify(transaction, null, 2));
+    const transaction = await verifyNombaTransaction({ orderReference });
+
+    console.log(`[Verification Response] Entire: ${JSON.stringify(transaction, null, 2)}`);
+    console.log(`[Verification Response] Status: ${transaction.status}`);
 
     if (transaction.status !== "SUCCESS") {
       return NextResponse.json({
@@ -46,17 +26,27 @@ console.log(JSON.stringify(result, null, 2));
       });
     }
 
+    if (!transaction.transactionId) {
+      console.error("[Verification Failed] Missing transaction ID");
+      return NextResponse.json(
+        { error: "Missing transaction ID." },
+        { status: 500 }
+      );
+    }
+
     await markPaymentSuccessful(
       orderReference,
-      transaction.Id,
+      transaction.transactionId,
     );
+
+    console.log(`[Verification Success] Database Updated for: ${orderReference}`);
 
     return NextResponse.json({
       success: true,
     });
 
   } catch (err) {
-    console.error(err);
+    console.error("[Verification Failed]", err);
 
     return NextResponse.json(
       {

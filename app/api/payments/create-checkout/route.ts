@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { getNombaAccessToken } from "@/lib/nomba";
+import { createNombaCheckoutOrder } from "@/services/nomba/checkout";
 
 export async function POST(req: Request) {
   try {
@@ -10,6 +10,8 @@ export async function POST(req: Request) {
       amount,
     } = await req.json();
 
+    console.log(`[Payment Creation Started] Customer: ${customerId}, Policy: ${policyId}, Amount: ${amount}`);
+
     // Find customer
     const customer = await prisma.customer.findUnique({
       where: {
@@ -18,6 +20,7 @@ export async function POST(req: Request) {
     });
 
     if (!customer) {
+      console.error(`[Payment Creation Failed] Customer not found: ${customerId}`);
       return NextResponse.json(
         { error: "Customer not found." },
         { status: 404 }
@@ -32,6 +35,7 @@ export async function POST(req: Request) {
     });
 
     if (!policy) {
+      console.error(`[Payment Creation Failed] Policy not found: ${policyId}`);
       return NextResponse.json(
         { error: "Policy not found." },
         { status: 404 }
@@ -48,66 +52,42 @@ export async function POST(req: Request) {
       },
     });
 
-    // Authenticate with Nomba
-    const accessToken = await getNombaAccessToken();
+    console.log(`[Payment Created] ID: ${payment.id}`);
 
     // Create checkout
-    const response = await fetch(
-      "https://api.nomba.com/v1/checkout/order",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-          accountId: process.env.NOMBA_ACCOUNT_ID!,
-        },
-        body: JSON.stringify({
-          order: {
-            amount: Number(amount).toFixed(2),
-            currency: "NGN",
-            customerEmail: customer.email,
-            customerId: customer.id,
-            orderReference: payment.id,
-            callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL}/payments/callback`,
-          },
-        }),
-      }
-    );
+    const checkoutData = await createNombaCheckoutOrder({
+      order: {
+        amount: Number(amount).toFixed(2),
+        currency: "NGN",
+        customerEmail: customer.email || "",
+        customerId: customer.id,
+        orderReference: payment.id,
+        callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL}/payments/callback`,
+      },
+    });
 
-    const result = await response.json();
-
-    console.log("Nomba Response");
-    console.log(JSON.stringify(result, null, 2));
-
-    if (!response.ok) {
-      return NextResponse.json(
-        {
-          error: result,
-        },
-        {
-          status: response.status,
-        }
-      );
-    }
+    console.log(`[Checkout Generated] OrderReference: ${checkoutData.orderReference}`);
 
     await prisma.payment.update({
       where: {
         id: payment.id,
       },
       data: {
-        checkoutLink: result.data.checkoutLink,
-        orderReference: result.data.orderReference,
+        checkoutLink: checkoutData.checkoutLink,
+        orderReference: checkoutData.orderReference,
       },
     });
 
+    console.log(`[Payment Updated] OrderReference stored for Payment: ${payment.id}`);
+
     return NextResponse.json({
-      checkoutLink: result.data.checkoutLink,
+      checkoutLink: checkoutData.checkoutLink,
       paymentId: payment.id,
-      orderReference: result.data.orderReference,
+      orderReference: checkoutData.orderReference,
     });
 
   } catch (error) {
-    console.error(error);
+    console.error("[Payment Creation Failed]", error);
 
     return NextResponse.json(
       {
